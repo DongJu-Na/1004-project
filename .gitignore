@@ -1,0 +1,60 @@
+# ─────────────────────────────────────────
+# Unity — PROJECT 1028
+# ─────────────────────────────────────────
+
+# Unity 생성 폴더 (절대 커밋하지 않는다 — 수 GB)
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Asset Store 임시
+/[Aa]ssets/AssetStoreTools*
+/[Aa]ssets/Plugins/Editor/JetBrains*
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 빌드 산출물
+*.apk
+*.aab
+*.unitypackage
+*.app
+ExportedObj/
+.consulo/
+*.stackdump
+
+# 크래시 리포트
+sysinfo.txt
+crashlytics-build.properties
+
+# ─────────────────────────────────────────
+# ⚠️ .meta 파일은 절대 무시하지 않는다
+# .meta 를 제외하면 Unity 참조가 전부 깨진다
+# ─────────────────────────────────────────
