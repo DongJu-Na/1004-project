@@ -1,0 +1,18 @@
+{
+  "version": "0.8-draft",
+  "actions": {
+    "backstab":     { "range": 1.8, "backConeDegrees": 120, "failChance": 0,    "noiseLevel": "Low",    "noiseEventId": "noise_low",    "status": "확정" },
+    "shove":        { "range": 1.8, "backConeDegrees": 0,   "failChance": 0.35, "noiseLevel": "Medium", "noiseEventId": "noise_medium", "status": "확정대기" },
+    "objectStrike": { "range": 2.0, "backConeDegrees": 0,   "failChance": 0,    "noiseLevel": "High",   "noiseEventId": "noise_high",   "status": "확정" }
+  },
+  "unconscious": { "minSeconds": 90, "maxSeconds": 180, "status": "확정" },
+  "carry":       { "speedMultiplier": 0.45, "status": "확정대기" },
+  "costs": {
+    "witnessedEventId": "subdue_witnessed",
+    "foundIslandEventId": "unconscious_found_island",
+    "foundPersonalEventId": "unconscious_found",
+    "wakeEventId": "unconscious_wake",
+    "shoveFailEventId": "shove_failed",
+    "status": "확정"
+  }
+}

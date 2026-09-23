@@ -1,0 +1,25 @@
+{
+    "name": "PlayFoundation.Editor",
+    "rootNamespace": "Project1028.PlayFoundation.Editor",
+    "references": [
+        "PlayFoundation",
+        "Unity.InputSystem",
+        "Suspicion",
+        "NpcTypes",
+        "Subdue",
+        "Report",
+        "Vehicle",
+        "Encounter"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Encounter",
+    "rootNamespace": "Project1028.Encounter",
+    "references": [
+        "PlayFoundation",
+        "Suspicion",
+        "NpcTypes",
+        "Subdue",
+        "Vehicle",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

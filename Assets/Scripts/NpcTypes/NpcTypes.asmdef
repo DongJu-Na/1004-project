@@ -1,0 +1,19 @@
+{
+    "name": "NpcTypes",
+    "rootNamespace": "Project1028.NpcTypes",
+    "references": [
+        "PlayFoundation",
+        "Suspicion",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "project1028/suspicion/suspicion-rules.schema.json",
+  "title": "SuspicionRules",
+  "description": "의심 시스템 규칙 데이터. 파일: Assets/StreamingAssets/Suspicion/suspicion_rules.json. 수치는 코드가 아니라 이 파일에만 있다(FR-009). status는 SDD 확정/제안 상태.",
+  "type": "object",
+  "required": [
+    "version",
+    "events",
+    "decay",
+    "propagation",
+    "timeOfDay",
+    "carryOver",
+    "barks"
+  ],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "personalDelta",
+          "islandDelta",
+          "scope",
+          "requiresSight",
+          "nightOnly",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "personalDelta": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "음수는 로더가 경고 후 0으로 클램프"
+          },
+          "islandDelta": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "scope": {
+            "enum": [
+              "witness",
+              "radius",
+              "target"
+            ]
+          },
+          "radius": {
+            "type": "number",
+            "minimum": 0
+          },
+          "requiresSight": {
+            "type": "boolean"
+          },
+          "nightOnly": {
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "확정",
+              "확정대기"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "decay": {
+      "type": "object",
+      "required": [
+        "personalIntervalSeconds",
+        "islandPerMinute",
+        "status"
+      ],
+      "properties": {
+        "personalIntervalSeconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "islandPerMinute": {
+          "type": "number",
+          "minimum": 0
+        },
+        "status": {
+          "enum": [
+            "확정",
+            "확정대기"
+          ]
+        }
+      }
+    },
+    "propagation": {
+      "type": "object",
+      "required": [
+        "distance",
+        "delaySeconds",
+        "status"
+      ],
+      "properties": {
+        "distance": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "delaySeconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "status": {
+          "enum": [
+            "확정",
+            "확정대기"
+          ]
+        }
+      }
+    },
+    "timeOfDay": {
+      "type": "object",
+      "required": [
+        "dayMultiplier",
+        "nightMultiplier",
+        "nightWanderEventId",
+        "nightWanderIntervalSeconds",
+        "status"
+      ],
+      "properties": {
+        "dayMultiplier": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "nightMultiplier": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "nightWanderEventId": {
+          "type": "string"
+        },
+        "nightWanderIntervalSeconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "status": {
+          "enum": [
+            "확정",
+            "확정대기"
+          ]
+        }
+      }
+    },
+    "carryOver": {
+      "type": "object",
+      "required": [
+        "personalFactor",
+        "islandFactor",
+        "islandMin",
+        "status"
+      ],
+      "properties": {
+        "personalFactor": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "islandFactor": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "islandMin": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "status": {
+          "enum": [
+            "확정",
+            "확정대기"
+          ]
+        }
+      }
+    },
+    "barks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

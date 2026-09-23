@@ -1,0 +1,21 @@
+{
+    "name": "Report",
+    "rootNamespace": "Project1028.Report",
+    "references": [
+        "PlayFoundation",
+        "Suspicion",
+        "NpcTypes",
+        "Subdue",
+        "Unity.InputSystem",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

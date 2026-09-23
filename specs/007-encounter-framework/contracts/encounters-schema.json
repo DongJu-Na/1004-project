@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EncounterRules",
+  "description": "Assets/StreamingAssets/Encounter/encounters.json — 스폰 규격(§6.4), 풀, 인카운터 정의(§6.1·§6.2), 회수 테이블(§6.5). sample:true는 검증용이며 게임 콘텐츠가 아니다.",
+  "type": "object",
+  "required": ["version", "spawn", "pools", "encounters", "callbacks"],
+  "properties": {
+    "version": { "type": "string" },
+    "spawn": {
+      "type": "object",
+      "required": ["perRunMin", "perRunMax", "minIntervalSeconds", "footChance", "vehicleChance", "despawnDelaySeconds", "choiceTimeoutSeconds", "typeWeights", "status"],
+      "properties": {
+        "perRunMin": { "type": "integer", "minimum": 0 }, "perRunMax": { "type": "integer", "minimum": 0 },
+        "minIntervalSeconds": { "type": "number", "minimum": 0 },
+        "footChance": { "type": "number", "minimum": 0, "maximum": 1 }, "vehicleChance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "despawnDelaySeconds": { "type": "number", "minimum": 0 }, "choiceTimeoutSeconds": { "type": "number", "exclusiveMinimum": 0 },
+        "typeWeights": { "type": "object", "required": ["A", "B", "C", "D"], "properties": { "A": { "type": "number", "minimum": 0 }, "B": { "type": "number", "minimum": 0 }, "C": { "type": "number", "minimum": 0 }, "D": { "type": "number", "minimum": 0 } } },
+        "status": { "enum": ["확정", "확정대기"] }
+      }
+    },
+    "pools": { "type": "array", "items": { "type": "object", "required": ["poolId", "islandId", "encounterIds"], "properties": { "poolId": { "type": "string" }, "islandId": { "type": "string" }, "encounterIds": { "type": "array", "items": { "type": "string" } } } } },
+    "encounters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "sample", "npcs", "lines", "outcome", "conditions"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "type": { "enum": ["A", "B", "C", "D"] },
+          "sample": { "type": "boolean" },
+          "variantOf": { "type": "string" },
+          "choiceAfterLine": { "type": "integer", "minimum": 0 },
+          "npcs": { "type": "array", "minItems": 1, "maxItems": 2, "items": { "type": "object", "required": ["displayName", "offset"], "properties": { "displayName": { "type": "string" }, "offset": { "type": "object", "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "z": { "type": "number" } } }, "facing": { "type": "object" } } } },
+          "lines": { "type": "array", "minItems": 3, "maxItems": 5, "items": { "type": "string" } },
+          "outcome": {
+            "type": "object",
+            "properties": {
+              "flags": { "type": "array", "items": { "type": "string" } },
+              "condition": { "enum": ["in_sight", "always"] },
+              "eventId": { "type": "string" },
+              "prompt": { "type": "string" },
+              "optionA": { "type": "object", "properties": { "label": { "type": "string" }, "flags": { "type": "array", "items": { "type": "string" } }, "eventId": { "type": "string" } } },
+              "optionB": { "type": "object" },
+              "defaultOption": { "enum": ["A", "B"] }
+            }
+          },
+          "conditions": { "type": "object", "properties": { "timeOfDay": { "enum": ["any", "day", "night"] }, "minZone": { "enum": ["Calm", "Watch", "Tension", "Lockdown"] }, "requiresFlag": { "type": "string" }, "forbidsFlag": { "type": "string" } } }
+        }
+      }
+    },
+    "callbacks": { "type": "array", "items": { "type": "object", "required": ["flag", "targetKind", "targetId", "description", "sample"], "properties": { "flag": { "type": "string" }, "targetKind": { "enum": ["encounter_variant", "document", "npc_line"] }, "targetId": { "type": "string" }, "description": { "type": "string" }, "sample": { "type": "boolean" } } } }
+  }
+}

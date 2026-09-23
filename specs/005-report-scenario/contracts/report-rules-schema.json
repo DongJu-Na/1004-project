@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReportRules",
+  "type": "object",
+  "required": ["version", "minWalkSeconds", "reportDurationSeconds", "cutDurationSeconds", "cutRequiresTool", "cutRange", "arriveDistance", "completedEventId", "status"],
+  "properties": {
+    "version": { "type": "string" },
+    "minWalkSeconds": { "type": "number", "exclusiveMinimum": 0 },
+    "reportDurationSeconds": { "type": "number", "minimum": 0 },
+    "cutDurationSeconds": { "type": "number", "exclusiveMinimum": 0 },
+    "cutRequiresTool": { "type": "boolean" },
+    "cutRange": { "type": "number", "exclusiveMinimum": 0 },
+    "arriveDistance": { "type": "number", "exclusiveMinimum": 0 },
+    "completedEventId": { "type": "string" },
+    "status": { "enum": ["확정", "확정대기"] }
+  }
+}

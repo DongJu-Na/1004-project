@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VehicleParams",
+  "type": "object",
+  "required": ["version", "maxSpeed", "reverseMaxSpeed", "acceleration", "brakeForce", "steerTorque", "steerSpeedFalloff", "lateralGrip", "suspensionLength", "suspensionSpring", "suspensionDamper", "enterRange", "exitMaxSpeed", "flipUpThreshold", "flipRecoverSeconds", "resetY", "movingSpeedThreshold"],
+  "properties": {
+    "version": { "type": "string" },
+    "maxSpeed": { "type": "number", "exclusiveMinimum": 0 }, "reverseMaxSpeed": { "type": "number", "exclusiveMinimum": 0 },
+    "acceleration": { "type": "number", "exclusiveMinimum": 0 }, "brakeForce": { "type": "number", "exclusiveMinimum": 0 },
+    "steerTorque": { "type": "number", "exclusiveMinimum": 0 }, "steerSpeedFalloff": { "type": "number", "minimum": 0, "maximum": 1 },
+    "lateralGrip": { "type": "number", "minimum": 0, "maximum": 1 },
+    "suspensionLength": { "type": "number", "exclusiveMinimum": 0 }, "suspensionSpring": { "type": "number", "exclusiveMinimum": 0 }, "suspensionDamper": { "type": "number", "minimum": 0 },
+    "enterRange": { "type": "number", "exclusiveMinimum": 0 }, "exitMaxSpeed": { "type": "number", "minimum": 0 },
+    "flipUpThreshold": { "type": "number", "minimum": -1, "maximum": 1 }, "flipRecoverSeconds": { "type": "number", "minimum": 0 },
+    "resetY": { "type": "number" }, "movingSpeedThreshold": { "type": "number", "minimum": 0 }
+  }
+}

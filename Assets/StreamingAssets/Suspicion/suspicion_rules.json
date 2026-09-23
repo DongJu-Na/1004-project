@@ -1,0 +1,285 @@
+{
+  "version": "0.8-draft",
+  "events": [
+    {
+      "id": "investigate_in_sight",
+      "personalDelta": 2,
+      "islandDelta": 0,
+      "scope": "target",
+      "radius": 0,
+      "requiresSight": true,
+      "nightOnly": false,
+      "status": "확정대기",
+      "note": "§2.3 시야 안에서 조사(E 길게) — 003 조사 릴레이가 NPC별 target으로 발생",
+      "ignoresTimeMultiplier": false
+    },
+    {
+      "id": "enter_restricted_area",
+      "personalDelta": 2,
+      "islandDelta": 0,
+      "scope": "witness",
+      "radius": 0,
+      "requiresSight": true,
+      "nightOnly": false,
+      "status": "확정대기",
+      "note": "§2.3 제한 구역 진입",
+      "ignoresTimeMultiplier": false
+    },
+    {
+      "id": "evidence_seen_one_hand",
+      "personalDelta": 1,
+      "islandDelta": 0,
+      "scope": "witness",
+      "radius": 0,
+      "requiresSight": true,
+      "nightOnly": false,
+      "status": "확정대기",
+      "note": "§2.3 증거 소지 목격 (한 손)",
+      "ignoresTimeMultiplier": false
+    },
+    {
+      "id": "evidence_seen_two_hands",
+      "personalDelta": 2,
+      "islandDelta": 0,
+      "scope": "witness",
+      "radius": 0,
+      "requiresSight": true,
+      "nightOnly": false,
+      "status": "확정대기",
+      "note": "§2.3 증거 소지 목격 (두 손)",
+      "ignoresTimeMultiplier": false
+    },
+    {
+      "id": "night_wander",
+      "personalDelta": 1,
+      "islandDelta": 0,
+      "scope": "target",
+      "radius": 0,
+      "requiresSight": true,
+      "nightOnly": true,
+      "status": "확정대기",
+      "note": "§7 밤에 돌아다님 (작업복 무효)",
+      "ignoresTimeMultiplier": false
+    },
+    {
+      "id": "sprint_nearby",
+      "personalDelta": 1,
+      "islandDelta": 0,
+      "scope": "radius",
+      "radius": 6,
+      "requiresSight": false,
+      "nightOnly": false,
+      "status": "확정대기",
+      "note": "§2.3 달리기 — 근처 NPC만",
+      "ignoresTimeMultiplier": false
+    },
+    {
+      "id": "noise",
+      "personalDelta": 1,
+      "islandDelta": 0,
+      "scope": "radius",
+      "radius": 8,
+      "requiresSight": false,
+      "nightOnly": false,
+      "status": "확정대기",
+      "note": "§2.3 소음 (문·충돌·차량) — 반경 내",
+      "ignoresTimeMultiplier": false
+    },
+    {
+      "id": "unconscious_found",
+      "personalDelta": 3,
+      "islandDelta": 0,
+      "scope": "target",
+      "radius": 0,
+      "requiresSight": false,
+      "nightOnly": false,
+      "status": "확정대기",
+      "note": "§2.3 기절한 NPC 발견 +3 즉시 — 004 발견 스캔이 발생 (target=발견자, actor=제압자)",
+      "ignoresTimeMultiplier": false
+    },
+    {
+      "id": "propagation",
+      "personalDelta": 1,
+      "islandDelta": 0,
+      "scope": "target",
+      "radius": 0,
+      "requiresSight": false,
+      "nightOnly": false,
+      "status": "확정",
+      "note": "§2.6 전파 — 시스템 내부 발생",
+      "ignoresTimeMultiplier": false
+    },
+    {
+      "id": "watcher_investigate",
+      "personalDelta": 2,
+      "islandDelta": 0,
+      "scope": "target",
+      "radius": 0,
+      "requiresSight": true,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": true,
+      "status": "확정",
+      "note": "§3 감시자: 시야 안 조사 시 즉시 +2 (시간대 배율 무시)"
+    },
+    {
+      "id": "informer_delivery",
+      "personalDelta": 1,
+      "islandDelta": 0,
+      "scope": "target",
+      "radius": 0,
+      "requiresSight": false,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": true,
+      "status": "확정",
+      "note": "§3.1/§2.6 밀고자 → 관리자 전달 (003 InformerBehaviour 발생)"
+    },
+    {
+      "id": "subdue_witnessed",
+      "personalDelta": 0,
+      "islandDelta": 40,
+      "scope": "global",
+      "radius": 0,
+      "requiresSight": false,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": false,
+      "status": "확정",
+      "note": "§4.4 제압 장면을 목격당함 — 제압 1회당 1회"
+    },
+    {
+      "id": "unconscious_found_island",
+      "personalDelta": 0,
+      "islandDelta": 30,
+      "scope": "global",
+      "radius": 0,
+      "requiresSight": false,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": false,
+      "status": "확정",
+      "note": "§4.4 다른 NPC가 기절자 발견 — 발견자마다 1회, 목격자 제외"
+    },
+    {
+      "id": "unconscious_wake",
+      "personalDelta": 3,
+      "islandDelta": 0,
+      "scope": "target",
+      "radius": 0,
+      "requiresSight": false,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": true,
+      "status": "확정",
+      "note": "§4.3/§4.4 기절자 깨어남 → 개인 의심 3 + 신고 시도"
+    },
+    {
+      "id": "shove_failed",
+      "personalDelta": 3,
+      "islandDelta": 0,
+      "scope": "target",
+      "radius": 0,
+      "requiresSight": false,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": true,
+      "status": "확정대기",
+      "note": "가정: 정면 밀치기 실패 시 시도당한 NPC는 확신 (SDD 미명시, clarify)"
+    },
+    {
+      "id": "noise_low",
+      "personalDelta": 1,
+      "islandDelta": 0,
+      "scope": "radius",
+      "radius": 4,
+      "requiresSight": false,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": false,
+      "status": "확정대기",
+      "note": "§4.1 소음 낮음 (뒤에서 제압) — §2.3 소음 +1"
+    },
+    {
+      "id": "noise_medium",
+      "personalDelta": 1,
+      "islandDelta": 0,
+      "scope": "radius",
+      "radius": 8,
+      "requiresSight": false,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": false,
+      "status": "확정대기",
+      "note": "§4.1 소음 중간 (정면 밀치기)"
+    },
+    {
+      "id": "noise_high",
+      "personalDelta": 1,
+      "islandDelta": 0,
+      "scope": "radius",
+      "radius": 14,
+      "requiresSight": false,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": false,
+      "status": "확정대기",
+      "note": "§4.1 소음 높음 (물건으로 기절)"
+    },
+    {
+      "id": "report_completed",
+      "personalDelta": 0,
+      "islandDelta": 25,
+      "scope": "global",
+      "radius": 0,
+      "requiresSight": false,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": false,
+      "status": "확정",
+      "note": "§5.2 내버려둔다 — 신고 완료 섬 +25 (005 ReportSystem 발생)"
+    },
+    {
+      "id": "encounter_stared_at",
+      "personalDelta": 1,
+      "islandDelta": 0,
+      "scope": "target",
+      "radius": 0,
+      "requiresSight": true,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": false,
+      "status": "확정대기",
+      "note": "§6.2 B 주민이 집 앞에서 쳐다본다 → 지나가면 의심 +1 (007 샘플)"
+    },
+    {
+      "id": "encounter_picked_up_runaway",
+      "personalDelta": 0,
+      "islandDelta": 20,
+      "scope": "global",
+      "radius": 0,
+      "requiresSight": false,
+      "nightOnly": false,
+      "ignoresTimeMultiplier": false,
+      "status": "확정대기",
+      "note": "§6.2 C 도망치는 노동자를 태운다 → 섬 의심도 급등 (007 샘플, 값 확정대기)"
+    }
+  ],
+  "decay": {
+    "personalIntervalSeconds": 60,
+    "islandPerMinute": 0.5,
+    "status": "확정대기"
+  },
+  "propagation": {
+    "distance": 3.0,
+    "delaySeconds": 4.0,
+    "status": "확정"
+  },
+  "timeOfDay": {
+    "dayMultiplier": 1.0,
+    "nightMultiplier": 0.7,
+    "nightWanderEventId": "night_wander",
+    "nightWanderIntervalSeconds": 3.0,
+    "status": "확정대기"
+  },
+  "carryOver": {
+    "personalFactor": 0.5,
+    "islandFactor": 0.5,
+    "islandMin": 5,
+    "status": "확정대기"
+  },
+  "barks": [
+    "거기, 잠깐.",
+    "어디서 왔어요?",
+    "처음 보는 사람이네."
+  ]
+}

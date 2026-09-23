@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SubdueRules",
+  "type": "object",
+  "required": ["version", "actions", "unconscious", "carry", "costs"],
+  "properties": {
+    "version": { "type": "string" },
+    "actions": {
+      "type": "object", "required": ["backstab", "shove", "objectStrike"],
+      "properties": {
+        "backstab":     { "type": "object", "required": ["range", "backConeDegrees", "noiseLevel", "noiseEventId", "status"], "properties": { "range": { "type": "number", "exclusiveMinimum": 0 }, "backConeDegrees": { "type": "number", "exclusiveMinimum": 0, "maximum": 180 }, "noiseLevel": { "enum": ["Low", "Medium", "High"] }, "noiseEventId": { "type": "string" }, "status": { "enum": ["확정", "확정대기"] } } },
+        "shove":        { "type": "object", "required": ["range", "failChance", "noiseLevel", "noiseEventId", "status"], "properties": { "range": { "type": "number", "exclusiveMinimum": 0 }, "failChance": { "type": "number", "minimum": 0, "maximum": 1 }, "noiseLevel": { "enum": ["Low", "Medium", "High"] }, "noiseEventId": { "type": "string" }, "status": { "enum": ["확정", "확정대기"] } } },
+        "objectStrike": { "type": "object", "required": ["range", "noiseLevel", "noiseEventId", "status"], "properties": { "range": { "type": "number", "exclusiveMinimum": 0 }, "noiseLevel": { "enum": ["Low", "Medium", "High"] }, "noiseEventId": { "type": "string" }, "status": { "enum": ["확정", "확정대기"] } } }
+      }
+    },
+    "unconscious": { "type": "object", "required": ["minSeconds", "maxSeconds", "status"], "properties": { "minSeconds": { "type": "number", "exclusiveMinimum": 0 }, "maxSeconds": { "type": "number" }, "status": { "enum": ["확정", "확정대기"] } } },
+    "carry": { "type": "object", "required": ["speedMultiplier", "status"], "properties": { "speedMultiplier": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 }, "status": { "enum": ["확정", "확정대기"] } } },
+    "costs": { "type": "object", "required": ["witnessedEventId", "foundIslandEventId", "foundPersonalEventId", "wakeEventId", "shoveFailEventId", "status"], "properties": { "witnessedEventId": { "type": "string" }, "foundIslandEventId": { "type": "string" }, "foundPersonalEventId": { "type": "string" }, "wakeEventId": { "type": "string" }, "shoveFailEventId": { "type": "string" }, "status": { "enum": ["확정", "확정대기"] } } }
+  }
+}

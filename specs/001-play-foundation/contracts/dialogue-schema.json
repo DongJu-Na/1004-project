@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "project1028/play-foundation/dialogue.schema.json",
+  "title": "DialogueData",
+  "description": "NPC 한 명의 대화 데이터. 파일 위치: Assets/StreamingAssets/Dialogue/<npcId>.json. 3~5줄 규격은 SDD §6.1과 공유한다.",
+  "type": "object",
+  "required": ["npcId", "lines", "destination"],
+  "additionalProperties": false,
+  "properties": {
+    "npcId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "NpcIdentity.NpcId와 일치해야 한다. 파일명과 동일."
+    },
+    "lines": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 3,
+      "maxItems": 5,
+      "description": "순서대로 표시되는 대사. 3~5줄 밖이면 로더가 경고를 남기고 있는 줄을 그대로 표시한다(0줄은 오류)."
+    },
+    "destination": {
+      "type": "object",
+      "required": ["name", "x", "y", "z"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "z": { "type": "number" }
+      },
+      "description": "마지막 줄 종료 시 플레이어에게 전달되어 씬 마커로 표시되는 목적지."
+    }
+  },
+  "examples": [
+    {
+      "npcId": "npc_dock_worker",
+      "lines": [
+        "어이, 처음 보는 얼굴이네.",
+        "여기서 뭘 찾는진 모르겠지만, 저 위 창고는 가지 마.",
+        "관리소는 저쪽 언덕 위야. 거기 가서 등록해.",
+        "가서 내 이름은 대지 마."
+      ],
+      "destination": { "name": "관리소", "x": 18.0, "y": 0.0, "z": 24.0 }
+    }
+  ]
+}

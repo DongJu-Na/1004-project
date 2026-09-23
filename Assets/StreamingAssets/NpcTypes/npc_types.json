@@ -1,0 +1,95 @@
+{
+  "version": "0.8-draft",
+  "rules": {
+    "watcher": {
+      "investigateEventId": "watcher_investigate",
+      "status": "확정"
+    },
+    "informer": {
+      "deliveryDelaySeconds": 8.0,
+      "deliveryEventId": "informer_delivery",
+      "arriveDistance": 1.5,
+      "status": "확정대기"
+    },
+    "sympathizer": {
+      "turnZone": "Tension",
+      "status": "확정"
+    },
+    "sentinel": {
+      "detectRadius": 5.0,
+      "soundRadius": 10.0,
+      "cooldownSeconds": 5.0,
+      "noiseEventId": "noise",
+      "status": "확정대기"
+    }
+  },
+  "assignments": [
+    {
+      "npcId": "type_watcher",
+      "type": "Watcher",
+      "roles": []
+    },
+    {
+      "npcId": "type_informer",
+      "type": "Informer",
+      "roles": []
+    },
+    {
+      "npcId": "type_sympathizer",
+      "type": "Sympathizer",
+      "roles": []
+    },
+    {
+      "npcId": "type_silent",
+      "type": "Silent",
+      "roles": []
+    },
+    {
+      "npcId": "type_sentinel",
+      "type": "Sentinel",
+      "roles": []
+    },
+    {
+      "npcId": "type_manager",
+      "type": "Watcher",
+      "roles": [
+        "manager"
+      ]
+    },
+    {
+      "npcId": "sub_w1",
+      "type": "Watcher",
+      "roles": []
+    },
+    {
+      "npcId": "sub_w2",
+      "type": "Watcher",
+      "roles": []
+    },
+    {
+      "npcId": "sub_q",
+      "type": "Silent",
+      "roles": []
+    },
+    {
+      "npcId": "sub_v",
+      "type": "Watcher",
+      "roles": []
+    },
+    {
+      "npcId": "rep_w1",
+      "type": "Watcher",
+      "roles": []
+    },
+    {
+      "npcId": "rep_w2",
+      "type": "Watcher",
+      "roles": []
+    },
+    {
+      "npcId": "rep_q",
+      "type": "Silent",
+      "roles": []
+    }
+  ]
+}

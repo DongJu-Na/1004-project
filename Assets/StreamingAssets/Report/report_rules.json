@@ -1,0 +1,11 @@
+{
+  "version": "0.8-draft",
+  "minWalkSeconds": 6.0,
+  "reportDurationSeconds": 3.0,
+  "cutDurationSeconds": 4.0,
+  "cutRequiresTool": false,
+  "cutRange": 2.0,
+  "arriveDistance": 1.2,
+  "completedEventId": "report_completed",
+  "status": "확정대기"
+}

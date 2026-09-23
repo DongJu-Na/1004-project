@@ -1,0 +1,19 @@
+{
+  "version": "0.1",
+  "maxSpeed": 14.0,
+  "reverseMaxSpeed": 5.0,
+  "acceleration": 18.0,
+  "brakeForce": 30.0,
+  "steerTorque": 6.0,
+  "steerSpeedFalloff": 0.6,
+  "lateralGrip": 0.85,
+  "suspensionLength": 0.6,
+  "suspensionSpring": 60.0,
+  "suspensionDamper": 6.0,
+  "enterRange": 3.0,
+  "exitMaxSpeed": 1.5,
+  "flipUpThreshold": 0.2,
+  "flipRecoverSeconds": 3.0,
+  "resetY": -5.0,
+  "movingSpeedThreshold": 0.3
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NpcTypeRules",
+  "description": "Assets/StreamingAssets/NpcTypes/npc_types.json — 유형 파라미터와 NPC별 배정. SDD §3.",
+  "type": "object",
+  "required": ["version", "rules", "assignments"],
+  "properties": {
+    "version": { "type": "string" },
+    "rules": {
+      "type": "object",
+      "required": ["watcher", "informer", "sympathizer", "sentinel"],
+      "properties": {
+        "watcher": { "type": "object", "required": ["investigateEventId", "status"], "properties": { "investigateEventId": { "type": "string" }, "status": { "enum": ["확정", "확정대기"] } } },
+        "informer": { "type": "object", "required": ["deliveryDelaySeconds", "deliveryEventId", "arriveDistance", "status"], "properties": { "deliveryDelaySeconds": { "type": "number", "exclusiveMinimum": 0 }, "deliveryEventId": { "type": "string" }, "arriveDistance": { "type": "number", "exclusiveMinimum": 0 }, "status": { "enum": ["확정", "확정대기"] } } },
+        "sympathizer": { "type": "object", "required": ["turnZone", "status"], "properties": { "turnZone": { "enum": ["Watch", "Tension", "Lockdown"] }, "status": { "enum": ["확정", "확정대기"] } } },
+        "sentinel": { "type": "object", "required": ["detectRadius", "soundRadius", "cooldownSeconds", "noiseEventId", "status"], "properties": { "detectRadius": { "type": "number", "exclusiveMinimum": 0 }, "soundRadius": { "type": "number", "exclusiveMinimum": 0 }, "cooldownSeconds": { "type": "number", "minimum": 0 }, "noiseEventId": { "type": "string" }, "status": { "enum": ["확정", "확정대기"] } } }
+      }
+    },
+    "assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["npcId", "type"],
+        "properties": {
+          "npcId": { "type": "string", "minLength": 1 },
+          "type": { "enum": ["Watcher", "Informer", "Sympathizer", "Silent", "Sentinel"] },
+          "faction": { "enum": ["Antagonist", "Victim", "Neutral"] },
+          "roles": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

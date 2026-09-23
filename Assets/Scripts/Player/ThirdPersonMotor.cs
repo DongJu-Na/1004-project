@@ -1,6 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+namespace Project1028.PlayFoundation
+{
+/// <summary>
+/// 3인칭 도보 이동. 기존 구현(FR-007)을 유지하며 PlayFoundation 어셈블리로 편입했다.
+/// Attack 액션은 읽지 않는다 (헌장 원칙 V). 이동 방향은 PlayerEntity.Camera가 있으면 그 카메라 기준.
+/// </summary>
 [DisallowMultipleComponent]
 [RequireComponent(typeof(CharacterController))]
 public class ThirdPersonMotor : MonoBehaviour
@@ -29,12 +35,29 @@ public class ThirdPersonMotor : MonoBehaviour
     private Vector3 planarVelocity;
     private float verticalVelocity;
     private bool movementEnabled = true;
+    private PlayerEntity owner;
 
     public bool IsGrounded => characterController != null && characterController.isGrounded;
-    public bool IsSprinting => movementEnabled && sprintAction != null && sprintAction.IsPressed() && HasMoveInput;
+    /// <summary>운반 등으로 이동 속도를 낮출 때 곱하는 배율 (기본 1).</summary>
+    public float SpeedMultiplier { get; set; } = 1f;
+    /// <summary>false면 달리기 입력을 무시한다 (기절자 운반 중).</summary>
+    public bool SprintAllowed { get; set; } = true;
+
+    public bool IsSprinting => movementEnabled && SprintAllowed && sprintAction != null && sprintAction.IsPressed() && HasMoveInput;
     public bool IsMoving => planarVelocity.sqrMagnitude > 0.01f;
     public float Speed => planarVelocity.magnitude;
     public Vector3 Velocity => planarVelocity + Vector3.up * verticalVelocity;
+    public bool MovementEnabled => movementEnabled;
+
+    /// <summary>Idle: 거의 정지, Sprinting: 달리기 입력 중 이동, 그 외 Walking.</summary>
+    public MovementState CurrentState
+    {
+        get
+        {
+            if (Speed < 0.05f) return MovementState.Idle;
+            return IsSprinting ? MovementState.Sprinting : MovementState.Walking;
+        }
+    }
 
     private bool HasMoveInput => moveAction != null && moveAction.ReadValue<Vector2>().sqrMagnitude > 0.001f;
 
@@ -42,6 +65,7 @@ public class ThirdPersonMotor : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         playerInput ??= GetComponent<PlayerInput>();
+        owner = GetComponent<PlayerEntity>();
 
         if (cameraTransform == null && Camera.main != null)
         {
@@ -64,9 +88,9 @@ public class ThirdPersonMotor : MonoBehaviour
 
     private void Update()
     {
-        if (characterController == null)
+        if (characterController == null || !characterController.enabled)
         {
-            return;
+            return; // 차량 탑승 중 등 컨트롤러 비활성
         }
 
         if (cameraTransform == null && Camera.main != null)
@@ -129,7 +153,7 @@ public class ThirdPersonMotor : MonoBehaviour
 
         Vector3 direction = GetCameraRelativeDirection(input);
         float targetSpeed = input.sqrMagnitude > 0f
-            ? (sprintAction != null && sprintAction.IsPressed() ? sprintSpeed : walkSpeed)
+            ? (SprintAllowed && sprintAction != null && sprintAction.IsPressed() ? sprintSpeed : walkSpeed) * Mathf.Max(0f, SpeedMultiplier)
             : 0f;
         Vector3 targetVelocity = direction * targetSpeed;
         float rate = targetSpeed > planarVelocity.magnitude ? acceleration : deceleration;
@@ -159,8 +183,13 @@ public class ThirdPersonMotor : MonoBehaviour
         }
 
         Transform reference = cameraTransform != null ? cameraTransform : transform;
+        if (owner != null && owner.Camera != null)
+        {
+            reference = owner.Camera.transform;
+        }
         Vector3 forward = Vector3.ProjectOnPlane(reference.forward, Vector3.up).normalized;
         Vector3 right = Vector3.ProjectOnPlane(reference.right, Vector3.up).normalized;
         return Vector3.ClampMagnitude(forward * input.y + right * input.x, 1f);
     }
+}
 }

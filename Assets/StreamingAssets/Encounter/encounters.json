@@ -1,0 +1,59 @@
+{
+  "version": "0.8-draft",
+  "spawn": {
+    "perRunMin": 2, "perRunMax": 4, "minIntervalSeconds": 20.0,
+    "footChance": 0.35, "vehicleChance": 0.7,
+    "despawnDelaySeconds": 6.0, "choiceTimeoutSeconds": 12.0,
+    "typeWeights": { "A": 30, "B": 25, "C": 20, "D": 25 },
+    "status": "확정대기"
+  },
+  "pools": [
+    { "poolId": "island_test_pool", "islandId": "island_test", "encounterIds": ["sample_a_truck", "sample_b_checkpoint", "sample_c_runaway", "sample_d_kids"] },
+    { "poolId": "common_pool", "islandId": "common", "encounterIds": ["sample_a_worker", "sample_b_stare", "sample_c_asking", "sample_d_funeral", "sample_c_runaway_ledger"] }
+  ],
+  "encounters": [
+    { "id": "sample_a_truck", "type": "A", "sample": true, "trigger": { "kind": "zone", "radius": 3 },
+      "npcs": [ { "displayName": "고장 난 트럭 운전자", "offset": { "x": 1.5, "y": 0, "z": 3 }, "facing": { "x": 0, "y": 0, "z": -1 } } ],
+      "lines": ["어이, 잠깐만. 시동이 안 걸려.", "밀어주면 적재함 좀 보여줄게. 볼 만한 게 있어.", "…고맙다. 이 은혜는 잊지 않을게.", "다음에 트럭 문제 생기면 나를 찾아."],
+      "outcome": { "flags": ["met_mechanic", "saw_cargo"] }, "conditions": { "timeOfDay": "any", "minZone": "Calm" } },
+    { "id": "sample_a_worker", "type": "A", "sample": true, "trigger": { "kind": "zone", "radius": 3 },
+      "npcs": [ { "displayName": "혼자 앉은 노동자", "offset": { "x": -1.5, "y": 0, "z": 2.5 } } ],
+      "lines": ["…여기 사람 아니지.", "지금은 아무도 없으니까 말해줄게. 창고 뒤를 봐.", "내가 말했다는 건 절대 말하지 마."],
+      "outcome": { "flags": ["worker_testimony_hint"] }, "conditions": { "timeOfDay": "any", "minZone": "Calm" } },
+    { "id": "sample_b_checkpoint", "type": "B", "sample": true, "trigger": { "kind": "zone", "radius": 3 },
+      "npcs": [ { "displayName": "경비 1", "offset": { "x": -1, "y": 0, "z": 3 } }, { "displayName": "경비 2", "offset": { "x": 1, "y": 0, "z": 3 } } ],
+      "lines": ["차 세워. 검문이다.", "어디서 오는 길이야?", "…됐어. 가.", "다음엔 이 길로 오지 마."],
+      "outcome": { "condition": "in_sight", "eventId": "encounter_stared_at", "flags": ["passed_checkpoint"] }, "conditions": { "timeOfDay": "any", "minZone": "Calm" } },
+    { "id": "sample_b_stare", "type": "B", "sample": true, "trigger": { "kind": "zone", "radius": 3 },
+      "npcs": [ { "displayName": "집 앞 주민", "offset": { "x": 2, "y": 0, "z": 2 } } ],
+      "lines": ["……", "이 시간에 누가 돌아다녀.", "……"],
+      "outcome": { "condition": "in_sight", "eventId": "encounter_stared_at" }, "conditions": { "timeOfDay": "night", "minZone": "Calm" } },
+    { "id": "sample_c_runaway", "type": "C", "sample": true, "choiceAfterLine": 1, "trigger": { "kind": "zone", "radius": 3 },
+      "npcs": [ { "displayName": "도망치는 노동자", "offset": { "x": 0, "y": 0, "z": 3 } } ],
+      "lines": ["제발… 태워줘요. 저 사람들이 와요.", "부탁이에요. 시간이 없어요.", "…", "고마워요. 아니면, 미안해요."],
+      "outcome": { "prompt": "차 문을 열까?", "optionA": { "label": "태운다", "flags": ["picked_up_runaway"], "eventId": "encounter_picked_up_runaway" }, "optionB": { "label": "안 태운다", "flags": ["left_runaway"] }, "defaultOption": "B" },
+      "conditions": { "timeOfDay": "any", "minZone": "Calm" } },
+    { "id": "sample_c_asking", "type": "C", "sample": true, "choiceAfterLine": 0, "trigger": { "kind": "zone", "radius": 3 },
+      "npcs": [ { "displayName": "묻는 주민", "offset": { "x": 1, "y": 0, "z": 2.5 } } ],
+      "lines": ["저기, 저 사람 못 봤어? 키 큰 남자.", "……그래. 고마워.", "혹시 보면 말해줘."],
+      "outcome": { "prompt": "뭐라고 답할까?", "optionA": { "label": "거짓말한다", "flags": ["lied_to_resident"] }, "optionB": { "label": "본 대로 말한다", "flags": ["told_resident"] }, "defaultOption": "B" },
+      "conditions": { "timeOfDay": "any", "minZone": "Calm" } },
+    { "id": "sample_d_kids", "type": "D", "sample": true, "trigger": { "kind": "zone", "radius": 3 },
+      "npcs": [ { "displayName": "아이 1", "offset": { "x": -1, "y": 0, "z": 3 } }, { "displayName": "아이 2", "offset": { "x": 1, "y": 0, "z": 3.5 } } ],
+      "lines": ["야, 저기 봐!", "소금 밟으면 안 된다니까!", "히히."],
+      "outcome": {}, "conditions": { "timeOfDay": "any", "minZone": "Calm" } },
+    { "id": "sample_d_funeral", "type": "D", "sample": true, "trigger": { "kind": "zone", "radius": 3 },
+      "npcs": [ { "displayName": "상여꾼", "offset": { "x": -1, "y": 0, "z": 3 } }, { "displayName": "유족", "offset": { "x": 1, "y": 0, "z": 3 } } ],
+      "lines": ["…길을 좀 비켜주시오.", "……", "고맙소."],
+      "outcome": {}, "conditions": { "timeOfDay": "any", "minZone": "Calm" } },
+    { "id": "sample_c_runaway_ledger", "type": "A", "sample": true, "variantOf": "sample_c_runaway", "trigger": { "kind": "zone", "radius": 3 },
+      "npcs": [ { "displayName": "장부를 든 관리자", "offset": { "x": 1, "y": 0, "z": 3 } } ],
+      "lines": ["…이 이름은 지워. 어젯밤에 그렇게 됐어.", "무슨 일이냐고? 알 거 없어.", "지나가."],
+      "outcome": { "flags": ["saw_ledger_strikethrough"] }, "conditions": { "timeOfDay": "any", "minZone": "Calm", "requiresFlag": "left_runaway" } }
+  ],
+  "callbacks": [
+    { "flag": "left_runaway", "targetKind": "encounter_variant", "targetId": "sample_c_runaway_ledger", "description": "안 태운 사람을 나중에 장부에서 취소선으로 발견한다 (§6.5)", "sample": true },
+    { "flag": "picked_up_runaway", "targetKind": "npc_line", "targetId": "testimony_next_island", "description": "태워준 노동자가 다음 섬에서 증언해준다 (§6.5)", "sample": true },
+    { "flag": "met_mechanic", "targetKind": "document", "targetId": "truck_repair_note", "description": "도와준 정비공이 트럭을 고쳐준다 (§6.5)", "sample": true }
+  ]
+}
