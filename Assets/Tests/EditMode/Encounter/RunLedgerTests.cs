@@ -1,3 +1,4 @@
+using System.Linq;
 using NUnit.Framework;
 using Project1028.Encounter;
 
