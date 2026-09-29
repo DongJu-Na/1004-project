@@ -103,6 +103,9 @@ public class ThirdPersonMotor : MonoBehaviour
         characterController.Move(Velocity * Time.deltaTime);
     }
 
+    /// <summary>낙하 복귀 등에서 수직 속도를 0으로 (FallRespawn).</summary>
+    public void ResetVertical() { verticalVelocity = 0f; planarVelocity = Vector3.zero; }
+
     /// <summary>Temporarily prevents or restores player-controlled movement.</summary>
     public void SetMovementEnabled(bool enabled)
     {

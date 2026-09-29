@@ -16,14 +16,21 @@ namespace Project1028.Report
 
         private void OnEnable()
         {
-            ReportEvents.OnReportStarted += (n, p, r) => Push($"시작 {n.DisplayName}→{r.DisplayName} ({p.Id})");
-            ReportEvents.OnReportRetargeted += (n, p, r) => Push($"재타깃 {n.DisplayName}→{r.DisplayName}");
-            ReportEvents.OnReportAbandoned += (n, p, w) => Push($"포기 {n.DisplayName}: {w}");
-            ReportEvents.OnReportCompleted += (n, p, r) => Push($"★ 완료 {n.DisplayName}@{r?.DisplayName} ({p.Id})");
-            ReportEvents.OnReportInterrupted += (n, p) => Push($"중단 {n.DisplayName}");
-            ReportEvents.OnPhoneCut += (r, p) => Push($"끊음 {r.DisplayName} ({p.Id})");
-            ReportEvents.OnCutCancelled += (r, p) => Push($"끊기 취소 {r.DisplayName}");
+            ReportEvents.OnReportStarted += Started; ReportEvents.OnReportRetargeted += Retargeted; ReportEvents.OnReportAbandoned += Abandoned;
+            ReportEvents.OnReportCompleted += Completed; ReportEvents.OnReportInterrupted += Interrupted; ReportEvents.OnPhoneCut += Cut; ReportEvents.OnCutCancelled += CutCancelled;
         }
+        private void OnDisable()
+        {
+            ReportEvents.OnReportStarted -= Started; ReportEvents.OnReportRetargeted -= Retargeted; ReportEvents.OnReportAbandoned -= Abandoned;
+            ReportEvents.OnReportCompleted -= Completed; ReportEvents.OnReportInterrupted -= Interrupted; ReportEvents.OnPhoneCut -= Cut; ReportEvents.OnCutCancelled -= CutCancelled;
+        }
+        private void Started(NpcIdentity n, PlayerEntity p, ReportPoint r) => Push($"시작 {n.DisplayName}→{r.DisplayName} ({p.Id})");
+        private void Retargeted(NpcIdentity n, PlayerEntity p, ReportPoint r) => Push($"재타깃 {n.DisplayName}→{r.DisplayName}");
+        private void Abandoned(NpcIdentity n, PlayerEntity p, string w) => Push($"포기 {n.DisplayName}: {w}");
+        private void Completed(NpcIdentity n, PlayerEntity p, ReportPoint r) => Push($"★ 완료 {n.DisplayName}@{r?.DisplayName} ({p.Id})");
+        private void Interrupted(NpcIdentity n, PlayerEntity p) => Push($"중단 {n.DisplayName}");
+        private void Cut(ReportPoint r, PlayerEntity p) => Push($"끊음 {r.DisplayName} ({p.Id})");
+        private void CutCancelled(ReportPoint r, PlayerEntity p) => Push($"끊기 취소 {r.DisplayName}");
 
         private void Push(string s) { log.Enqueue($"[{Time.time:0.0}] {s}"); while (log.Count > 6) log.Dequeue(); }
 

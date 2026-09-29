@@ -22,8 +22,8 @@ namespace Project1028.PlayFoundation.Editor
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
             PlayFoundationSceneBuilder.CreateLight();
-            PlayFoundationSceneBuilder.CreateGround();
-            PlayFoundationSceneBuilder.CreateWalls();
+            PlayFoundationSceneBuilder.CreateGround(40f); // 도로 길이 ±30 → 80×80
+            PlayFoundationSceneBuilder.CreateWalls(40f);
 
             // 도로 띠 (시각용)
             var road = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -35,6 +35,7 @@ namespace Project1028.PlayFoundation.Editor
 
             new GameObject("RuntimeHud").AddComponent<RuntimeHud>();
             new GameObject("TimeOfDay").AddComponent<TimeOfDay>();
+            new GameObject("NightLighting").AddComponent<NightLighting>();
             new GameObject("SuspicionSystem").AddComponent<SuspicionSystem>();
             new GameObject("SuspicionDebugPanel").AddComponent<SuspicionDebugPanel>();
             new GameObject("SuspicionTestConsole").AddComponent<SuspicionTestConsole>();
@@ -55,7 +56,7 @@ namespace Project1028.PlayFoundation.Editor
                 p.AddComponent<PlayerActivity>();
             }
 
-            VehicleSceneBuilder.CreateTruck(new Vector3(5f, 1f, -28f));
+            VehicleSceneBuilder.CreateTruck(new Vector3(5f, 1.05f, -28f));
 
             foreach (float z in new[] { -25f, -15f, -5f, 5f, 15f, 25f })
             {

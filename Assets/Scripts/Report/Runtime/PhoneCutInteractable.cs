@@ -23,13 +23,7 @@ namespace Project1028.Report
             if (point == null || !point.CanBeCut || !point.IsUsable) return false;
             var cutter = player.GetComponent<PlayerCutter>();
             if (cutter == null || cutter.IsCutting) return false;
-            var rules = Rules;
-            if (rules != null && rules.cutRequiresTool)
-            {
-                var kit = player.GetComponent<PlayerToolkit>();
-                if (kit == null || !kit.HasCuttingTool) return true; // 안내는 보이되 Begin에서 이유를 알려준다
-            }
-            return true;
+            return true; // 도구 요구는 Begin에서 이유와 함께 거부한다
         }
 
         public void Interact(PlayerEntity player)

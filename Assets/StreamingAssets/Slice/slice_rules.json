@@ -1,0 +1,92 @@
+{
+  "version": "0.8-slice",
+  "clock": {
+    "nightAtSeconds": 300,
+    "departureAtSeconds": 600,
+    "nextBoatDelaySeconds": 180,
+    "status": "확정대기"
+  },
+  "evidence": {
+    "investigateSeconds": 2.5,
+    "twoHanded": true,
+    "seenCooldownSeconds": 3.0,
+    "oneHandEventId": "evidence_seen_one_hand",
+    "twoHandEventId": "evidence_seen_two_hands",
+    "status": "확정대기"
+  },
+  "restricted": {
+    "cooldownSeconds": 5.0,
+    "eventId": "enter_restricted_area",
+    "status": "확정대기"
+  },
+  "dock": {
+    "boardRadius": 6.0,
+    "requireEvidenceForSuccess": true,
+    "status": "확정"
+  },
+  "vehicle": {
+    "allowEvidenceAboard": true
+  },
+  "objectives": [
+    {
+      "id": "obj_evidence",
+      "text": "창고에서 장부를 조사해 가져와라",
+      "markerFacilityId": "warehouse",
+      "condition": "evidence_picked"
+    },
+    {
+      "id": "obj_depart",
+      "text": "부두로 돌아가 배를 타라",
+      "markerFacilityId": "dock",
+      "condition": "at_dock_with_evidence"
+    }
+  ],
+  "hints": [
+    "WASD 이동 · Shift 달리기 · 마우스 시점 (게임 뷰 클릭으로 잠금)",
+    "E: 조사(누른 뒤 멈춰 있기)·들기·탑승·배 타기",
+    "F: 제압 (빈손일 때) · G: 내려놓기 · K: 도구 토글(전화선 끊기용)",
+    "누가 나를 보면 화면 위에 눈이 켜진다. 밤에는 돌아다니는 것만으로 의심받는다",
+    "디버그: F9 +60초 · F10 출항 직전 · F11 봉쇄 토글 · F12 반응 테스트 · Home 런 종료"
+  ],
+  "hintSeconds": 30.0,
+  "feedback": {
+    "heartbeat": {
+      "intervalsByStage": [
+        2.0,
+        1.2,
+        0.7,
+        0.4
+      ],
+      "zoneMultiplier": [
+        1.0,
+        0.9,
+        0.75,
+        0.55
+      ],
+      "volume": 0.5
+    },
+    "pulse": {
+      "seconds": 0.6,
+      "alpha": 0.45
+    },
+    "tint": {
+      "alphaByZone": [
+        0.0,
+        0.08,
+        0.18,
+        0.3
+      ],
+      "nightAlpha": 0.35
+    },
+    "hitstop": {
+      "seconds": 0.1
+    },
+    "shake": {
+      "amplitude": 0.25,
+      "seconds": 0.25
+    },
+    "bigText": {
+      "seconds": 1.2
+    }
+  }
+}

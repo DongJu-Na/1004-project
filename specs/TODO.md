@@ -16,7 +16,8 @@
 - [ ] A7. 005 `Build Report Test Scene` → `specs/005-report-scenario/quickstart.md` (신고 이동, E 끊기, K 도구, 제압 중단). → T037.
 - [ ] A8. 006 `Build Vehicle Test Scene` → `specs/006-vehicle-drive/quickstart.md` (탑승·주행·하차·뒤집힘 복구·NPC 무해). 주행 감각이 나쁘면 `StreamingAssets/Vehicle/vehicle_params.json` 튠. → T030.
 - [ ] A9. 007 `Build Encounter Test Scene` → `specs/007-encounter-framework/quickstart.md` (X 강제, 1/2 선택, Z 100런 시뮬). → T039.
-- [ ] A10. 각 quickstart §4 성공 기준 체크박스에 결과 기록. 실패 항목은 "현상 + 재현 순서"로 적어 두기.
+- [ ] A10. 각 quickstart §4 성공 기준 체크박스에 결과 기록.
+- [ ] **A11. 008 `Build Island Slice` → 한 런 플레이 (`specs/008-island-slice/quickstart.md`). 이게 "게임인가"를 처음 판단하는 순간. SC-005 "긴장되는 순간이 있었나"를 기록.** 실패 항목은 "현상 + 재현 순서"로 적어 두기.
 
 ## B. 스펙에서 "해석"으로 남긴 결정 — `/speckit-clarify` 또는 직접 확정
 
@@ -31,6 +32,7 @@
 - [ ] B7. 002: "매우 느림" 감소 = 1분 안에 구간이 안 바뀌는 속도(개인 60초/1, 섬 0.5/분). 이월 = 절반, 섬 최소 5.
 - [ ] B8. 001: 점프 유지 여부(기존 모터에 있음, SDD 무언급). 대화 진행 키 = 상호작용 키(E) 겸용.
 - [ ] B9. 006: 동승석 1개 추가(PrototypePlan에 없음, 헌장 원칙 IV 충족용).
+- [ ] B11. 008: 출항 10분·밤 5분·다음 배 +3분, 봉쇄로 다음 배 놓치면 강제 출도(실패), 증거는 두 손 물건, 증거 든 채 탑승 허용.
 - [ ] B10. 007: C 유형 선택은 타임아웃(12초) 시 기본 선택. 선택 중 도보 이탈은 잠금 때문에 불가.
 
 ## C. 헌장이 요구하는 문서 보강 (`.specify/memory/constitution.md` TODO)

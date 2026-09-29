@@ -21,10 +21,11 @@ namespace Project1028.Vehicle
 
         private void Update()
         {
+            bool sameFrameAsSeatChange = seats.LastSeatChangeFrame == Time.frameCount;
             var driver = seats.Driver;
             if (driver != null && driver.IsLocked)
             {
-                controller.SetInput(0f, 0f, 0f); // 대화(인카운터) 중: 운전 입력·하차·복구 무시
+                controller.SetInput(0f, 0f, 1f); // 대화(인카운터) 중: 제동, 운전 입력·하차·복구 무시
             }
             else if (driver != null)
             {
@@ -39,7 +40,9 @@ namespace Project1028.Vehicle
                     Vector2 m = move != null ? move.ReadValue<Vector2>() : Vector2.zero;
                     controller.SetInput(m.y, m.x, sprint != null && sprint.IsPressed() ? 1f : 0f);
                     if (jump != null && jump.WasPressedThisFrame()) controller.Recover();
-                    if (interact != null && interact.WasPressedThisFrame()) seats.TryExit(driver);
+                    var runner = driver.GetComponent<PlayFoundation.DialogueRunner>();
+                    bool dialogueEndedNow = runner != null && runner.LastEndedFrame == Time.frameCount;
+                    if (interact != null && interact.WasPressedThisFrame() && !sameFrameAsSeatChange && !dialogueEndedNow) seats.TryExit(driver);
                 }
                 else controller.SetInput(0f, 0f, 0f);
             }
@@ -50,7 +53,7 @@ namespace Project1028.Vehicle
             {
                 var input = passenger.GetComponent<PlayerInput>();
                 var interact = input != null && input.actions != null ? input.actions.FindAction("Interact", false) : null;
-                if (interact != null && interact.WasPressedThisFrame()) seats.TryExit(passenger); // Move/Sprint는 무시 (FR-007)
+                if (interact != null && interact.WasPressedThisFrame() && !sameFrameAsSeatChange) seats.TryExit(passenger); // Move/Sprint는 무시 (FR-007)
             }
         }
     }

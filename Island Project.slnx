@@ -1,4 +1,21 @@
 ﻿<Solution>
+  <Project Path="Vehicle.csproj" />
+  <Project Path="Slice.csproj" />
+  <Project Path="PlayFoundation.csproj" />
+  <Project Path="NpcTypes.Tests.EditMode.csproj" />
+  <Project Path="Report.csproj" />
+  <Project Path="Subdue.Tests.EditMode.csproj" />
+  <Project Path="Vehicle.Tests.EditMode.csproj" />
+  <Project Path="NpcTypes.csproj" />
+  <Project Path="Encounter.csproj" />
+  <Project Path="Subdue.csproj" />
+  <Project Path="Report.Tests.EditMode.csproj" />
+  <Project Path="Suspicion.csproj" />
+  <Project Path="Suspicion.Tests.EditMode.csproj" />
+  <Project Path="Slice.Tests.EditMode.csproj" />
+  <Project Path="Encounter.Tests.EditMode.csproj" />
+  <Project Path="PlayFoundation.Tests.EditMode.csproj" />
+  <Project Path="PlayFoundation.Editor.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
 </Solution>

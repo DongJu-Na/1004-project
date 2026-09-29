@@ -268,7 +268,7 @@
     "dayMultiplier": 1.0,
     "nightMultiplier": 0.7,
     "nightWanderEventId": "night_wander",
-    "nightWanderIntervalSeconds": 3.0,
+    "nightWanderIntervalSeconds": 8.0,
     "status": "확정대기"
   },
   "carryOver": {

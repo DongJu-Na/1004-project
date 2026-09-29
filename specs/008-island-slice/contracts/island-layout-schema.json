@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IslandLayout",
+  "type": "object",
+  "required": ["version", "facilities", "npcs", "restrictedZones", "dockFacilityId", "warehouseFacilityId", "evidenceFacilityId"],
+  "properties": {
+    "version": { "type": "string" },
+    "facilities": { "type": "array", "items": { "type": "object", "required": ["id", "kind", "position", "size"], "properties": { "id": { "type": "string" }, "kind": { "enum": ["dock", "boat", "road", "warehouse", "office", "house", "saltfield", "phone", "evidence", "vehicle", "trigger", "spawn"] }, "position": { "type": "object" }, "size": { "type": "object" }, "rotationY": { "type": "number" }, "label": { "type": "string" } } } },
+    "npcs": { "type": "array", "items": { "type": "object", "required": ["npcId", "displayName", "position", "facing"] } },
+    "restrictedZones": { "type": "array", "items": { "type": "object", "required": ["id", "center", "size"] } },
+    "dockFacilityId": { "type": "string" }, "warehouseFacilityId": { "type": "string" }, "evidenceFacilityId": { "type": "string" }
+  }
+}

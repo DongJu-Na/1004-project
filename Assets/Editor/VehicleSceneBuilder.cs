@@ -44,7 +44,7 @@ namespace Project1028.PlayFoundation.Editor
             // NPC 1 (001만: 정적 콜라이더, Rigidbody 없음 → 차량이 밀지 못한다)
             PlayFoundationSceneBuilder.CreateNpc("NPC_Bystander", "veh_npc", "구경꾼", new Vector3(12f, 1f, -6f), Vector3.back, talkable: false);
 
-            CreateTruck(new Vector3(5f, 1f, 0f));
+            CreateTruck(new Vector3(5f, 1.05f, 0f));
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
@@ -66,15 +66,20 @@ namespace Project1028.PlayFoundation.Editor
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
+            // 바퀴는 차체의 비균등 스케일을 상쇄하는 피벗 아래에 둔다(찌그러짐 방지). 피벗 로컬 좌표는 월드 미터 단위가 된다.
+            var pivot = new GameObject("WheelPivot");
+            pivot.transform.SetParent(body.transform, false);
+            pivot.transform.localScale = new Vector3(1f / 2.2f, 1f, 1f / 4.2f);
             var wheels = new Transform[4];
-            var offsets = new[] { new Vector3(-0.55f, -0.4f, 0.34f), new Vector3(0.55f, -0.4f, 0.34f), new Vector3(-0.55f, -0.4f, -0.34f), new Vector3(0.55f, -0.4f, -0.34f) };
+            // 서스펜션 평형 시 차체 중심 ≈ 1.03m → 바퀴 중심(반지름 0.35)이 지면에 닿도록 y ≈ -0.68
+            var offsets = new[] { new Vector3(-1.15f, -0.68f, 1.45f), new Vector3(1.15f, -0.68f, 1.45f), new Vector3(-1.15f, -0.68f, -1.45f), new Vector3(1.15f, -0.68f, -1.45f) };
             for (int i = 0; i < 4; i++)
             {
                 var w = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
                 w.name = $"Wheel_{i}";
-                w.transform.SetParent(body.transform, false);
-                w.transform.localPosition = offsets[i]; // 부모 스케일 기준 로컬
-                w.transform.localScale = new Vector3(0.35f, 0.15f, 0.18f);
+                w.transform.SetParent(pivot.transform, false);
+                w.transform.localPosition = offsets[i];
+                w.transform.localScale = new Vector3(0.7f, 0.15f, 0.7f); // 지름 0.7, 폭 0.3
                 w.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
                 Object.DestroyImmediate(w.GetComponent<Collider>());
                 PlayFoundationSceneBuilder.Tint(w, new Color(0.1f, 0.1f, 0.1f));

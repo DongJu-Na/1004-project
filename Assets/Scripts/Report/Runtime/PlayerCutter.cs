@@ -34,6 +34,8 @@ namespace Project1028.Report
                 RuntimeHud.Instance?.Warn($"{owner.Id}: 전화선을 끊으려면 도구가 필요하다 (확정 대기 — K로 도구 토글)");
                 return false;
             }
+            if (owner.MovementState != MovementState.Idle) { RuntimeHud.Instance?.Warn($"{owner.Id}: 멈춘 뒤에 끊어야 한다"); return false; }
+            if (Vector3.Distance(owner.Position, target.Position) > system.Rules.cutRange + 0.5f) { RuntimeHud.Instance?.Warn($"{owner.Id}: 전화기에 더 가까이"); return false; }
             point = target;
             progress = new CutProgress(system.Rules.cutDurationSeconds);
             RuntimeHud.Instance?.Warn($"{owner.Id}: {target.DisplayName} 전화선 끊기 시작 — 움직이면 취소");
@@ -45,7 +47,7 @@ namespace Project1028.Report
             if (!IsCutting) return;
             var system = ReportSystem.Instance;
             bool valid = system != null && system.IsReady && point != null && point.IsUsable
-                         && Vector3.Distance(owner.Position, point.Position) <= system.Rules.cutRange
+                         && Vector3.Distance(owner.Position, point.Position) <= system.Rules.cutRange + 0.5f
                          && owner.MovementState == MovementState.Idle && !owner.IsLocked && !owner.HandsBusy;
 
             var r = progress.Tick(Time.deltaTime, valid);

@@ -14,10 +14,11 @@
 | 005 | 005-report-scenario | 게임 규칙(통합) | SDD §5 | 001~004 |
 | 006 | 006-vehicle-drive | 기반 | PrototypePlan 2단계 | 001 (002~005와 독립) |
 | 007 | 007-encounter-framework | 게임 규칙 | SDD §6 | 001, 002, 006 |
+| 008 | 008-island-slice | 통합(규칙 §2.5·§4.2 + 기반) | 15분 루프 수직 슬라이스 | 001~007 |
 
 ## 현재 상태 (2026-09-23)
 
-| 기능 | 어셈블리 | 데이터 | 테스트 씬 메뉴 | 수동 검증 |
+| 기능 | 어셈블리 | 데이터 | 테스트 씬 메뉴 | 동작 검증 |
 |---|---|---|---|---|
 | 001 | PlayFoundation | StreamingAssets/Dialogue | Build Play Foundation Test Scene | T038 |
 | 002 | Suspicion | StreamingAssets/Suspicion | Build Suspicion Test Scene | T042 |
@@ -26,6 +27,9 @@
 | 005 | Report | StreamingAssets/Report | Build Report Test Scene | T037 |
 | 006 | Vehicle | StreamingAssets/Vehicle | Build Vehicle Test Scene | T030 |
 | 007 | Encounter | StreamingAssets/Encounter | Build Encounter Test Scene | T039 |
+| **008** | **Slice** | StreamingAssets/Slice | **Build Island Slice** ← 게임처럼 보이는 첫 씬 | T040 |
+
+**상태(2026-09-29)**: 001~007 컴파일 통과·씬 생성됨. 그러나 "의도대로 동작"은 미확인이며 트럭(접지 실패)·낮/밤(조명 없음)은 이미 결함이 확인되어 수정했다(재검증 필요). 2026-09-29 전수검사로 논리 결함 20여 건을 수정했다(`specs/BUGS.md`). 컴파일 오류는 발견되지 않았으나 이 수정들도 아직 Unity에서 컴파일되지 않았다.
 
 의존: Encounter → Subdue/Vehicle → NpcTypes → Suspicion → PlayFoundation. Vehicle은 PlayFoundation만 참조.
 이 코드는 Unity 없는 환경에서 작성되어 **첫 컴파일이 아직 없다**. Unity 6000.6.2f1로 열고 콘솔 오류를 순서대로 해결한 뒤

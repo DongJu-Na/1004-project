@@ -23,6 +23,17 @@ namespace Project1028.Report
         public bool IsUsable => isUsable && isActiveAndEnabled;
         public bool CanBeCut => kind == ReportPointKind.Phone;
         public Vector3 Position => transform.position;
+        /// <summary>시설의 수평 반경(렌더러 바운드). NPC는 이 반경 + arriveDistance에서 도착한다.</summary>
+        public float ApproachRadius
+        {
+            get
+            {
+                var r = GetComponent<Renderer>();
+                if (r == null) return 0f;
+                var e = r.bounds.extents;
+                return Mathf.Max(e.x, e.z);
+            }
+        }
 
         public void Configure(string newId, ReportPointKind newKind, string newDisplayName)
         {

@@ -32,7 +32,7 @@ public static class EncounterEvents { /* data-model 목록 */ }
 | X | 다음 샘플 강제 발생(P1 위치) |
 | 1 / 2 | C 선택 |
 | Z | 100런 시뮬레이션 리포트 |
-| S | P1 정찰 중 토글 |
+| F8 | P1 정찰 중 토글 (S는 이동 키) |
 
 ## 에디터
 `Tools/PROJECT 1028/Build Encounter Test Scene` → `Assets/Scenes/Test_Encounter.unity`(도로·차량·트리거 6·샘플 8).

@@ -1,0 +1,47 @@
+{
+  "version": "0.8-slice",
+  "facilities": [
+    { "id": "dock",      "kind": "dock",      "position": { "x": 0,   "y": 0,   "z": -52 }, "size": { "x": 18, "y": 0.3, "z": 10 }, "rotationY": 0, "label": "부두" },
+    { "id": "boat",      "kind": "boat",      "position": { "x": 0,   "y": 0.6, "z": -56 }, "size": { "x": 4,  "y": 1.2, "z": 6 },  "rotationY": 0, "label": "배" },
+    { "id": "road_s",    "kind": "road",      "position": { "x": 0,   "y": 0.02,"z": -26 }, "size": { "x": 6,  "y": 1,   "z": 52 }, "rotationY": 0 },
+    { "id": "road_w",    "kind": "road",      "position": { "x": -18, "y": 0.02,"z": 0 },   "size": { "x": 36, "y": 1,   "z": 5 },  "rotationY": 0 },
+    { "id": "road_wn",   "kind": "road",      "position": { "x": -34, "y": 0.02,"z": 18 },  "size": { "x": 5,  "y": 1,   "z": 40 }, "rotationY": 0 },
+    { "id": "road_e",    "kind": "road",      "position": { "x": 20,  "y": 0.02,"z": 0 },   "size": { "x": 40, "y": 1,   "z": 5 },  "rotationY": 0 },
+    { "id": "road_en",   "kind": "road",      "position": { "x": 38,  "y": 0.02,"z": 22 },  "size": { "x": 5,  "y": 1,   "z": 44 }, "rotationY": 0 },
+    { "id": "warehouse", "kind": "warehouse", "position": { "x": -34, "y": 0,   "z": 44 },  "size": { "x": 12, "y": 4,   "z": 10 }, "rotationY": 0, "label": "창고 (제한 구역)" },
+    { "id": "office",    "kind": "office",    "position": { "x": 38,  "y": 0,   "z": 48 },  "size": { "x": 6,  "y": 3,   "z": 6 },  "rotationY": 0, "label": "관리소" },
+    { "id": "phone_a",   "kind": "phone",     "position": { "x": -8,  "y": 0,   "z": 4 },   "size": { "x": 1,  "y": 2,   "z": 1 },  "rotationY": 0, "label": "전화기 A" },
+    { "id": "phone_b",   "kind": "phone",     "position": { "x": 30,  "y": 0,   "z": -6 },  "size": { "x": 1,  "y": 2,   "z": 1 },  "rotationY": 0, "label": "전화기 B" },
+    { "id": "house_1",   "kind": "house",     "position": { "x": -10, "y": 0,   "z": -16 }, "size": { "x": 6,  "y": 3,   "z": 6 },  "rotationY": 0, "label": "집" },
+    { "id": "house_2",   "kind": "house",     "position": { "x": -12, "y": 0,   "z": 10 },  "size": { "x": 6,  "y": 3,   "z": 6 },  "rotationY": 0, "label": "집" },
+    { "id": "house_3",   "kind": "house",     "position": { "x": 12,  "y": 0,   "z": -14 }, "size": { "x": 6,  "y": 3,   "z": 6 },  "rotationY": 0, "label": "집" },
+    { "id": "house_4",   "kind": "house",     "position": { "x": 14,  "y": 0,   "z": 10 },  "size": { "x": 6,  "y": 3,   "z": 6 },  "rotationY": 0, "label": "집" },
+    { "id": "house_5",   "kind": "house",     "position": { "x": -22, "y": 0,   "z": 30 },  "size": { "x": 6,  "y": 3,   "z": 6 },  "rotationY": 0, "label": "집" },
+    { "id": "saltfield", "kind": "saltfield", "position": { "x": 26,  "y": 0,   "z": -34 }, "size": { "x": 24, "y": 0.1, "z": 18 }, "rotationY": 0, "label": "염전" },
+    { "id": "evidence",  "kind": "evidence",  "position": { "x": -34, "y": 0.4, "z": 46 },  "size": { "x": 0.6,"y": 0.6, "z": 0.6 },"rotationY": 0, "label": "장부" },
+    { "id": "vehicle",   "kind": "vehicle",   "position": { "x": 6,   "y": 1.05, "z": -46 }, "size": { "x": 2,  "y": 1,   "z": 4 },  "rotationY": 0 },
+    { "id": "trig_1",    "kind": "trigger",   "position": { "x": 0,   "y": 0,   "z": -30 }, "size": { "x": 3,  "y": 0,   "z": 3 },  "rotationY": 0 },
+    { "id": "trig_2",    "kind": "trigger",   "position": { "x": -18, "y": 0,   "z": 0 },   "size": { "x": 3,  "y": 0,   "z": 3 },  "rotationY": 0 },
+    { "id": "trig_3",    "kind": "trigger",   "position": { "x": 20,  "y": 0,   "z": 0 },   "size": { "x": 3,  "y": 0,   "z": 3 },  "rotationY": 0 },
+    { "id": "trig_4",    "kind": "trigger",   "position": { "x": -34, "y": 0,   "z": 24 },  "size": { "x": 3,  "y": 0,   "z": 3 },  "rotationY": 0 },
+    { "id": "spawn",     "kind": "spawn",     "position": { "x": 0,   "y": 1,   "z": -50 }, "size": { "x": 1,  "y": 1,   "z": 1 },  "rotationY": 0 }
+  ],
+  "npcs": [
+    { "npcId": "slice_watcher_1", "displayName": "창고 경비",     "position": { "x": -25.5, "y": 1, "z": 37 },  "facing": { "x": 0,  "y": 0, "z": -1 } },
+    { "npcId": "slice_watcher_2", "displayName": "관리소 경비",   "position": { "x": 38,  "y": 1, "z": 42 },  "facing": { "x": 0,  "y": 0, "z": -1 } },
+    { "npcId": "slice_informer_1","displayName": "길가 주민",     "position": { "x": -4,  "y": 1, "z": -20 }, "facing": { "x": 1,  "y": 0, "z": 0 } },
+    { "npcId": "slice_informer_2","displayName": "담배 피는 남자","position": { "x": -30, "y": 1, "z": 10 },  "facing": { "x": 0,  "y": 0, "z": -1 } },
+    { "npcId": "slice_symp_1",    "displayName": "집 앞 아주머니", "position": { "x": -6,  "y": 1, "z": -12 }, "facing": { "x": 1,  "y": 0, "z": 0 } },
+    { "npcId": "slice_symp_2",    "displayName": "평상의 노인",   "position": { "x": 10,  "y": 1, "z": 6 },   "facing": { "x": -1, "y": 0, "z": 0 } },
+    { "npcId": "slice_silent_1",  "displayName": "염전 노동자 1", "position": { "x": 22,  "y": 1, "z": -30 }, "facing": { "x": 0,  "y": 0, "z": 1 } },
+    { "npcId": "slice_silent_2",  "displayName": "염전 노동자 2", "position": { "x": 32,  "y": 1, "z": -38 }, "facing": { "x": -1, "y": 0, "z": 0 } },
+    { "npcId": "slice_dog",       "displayName": "개",           "position": { "x": 9,   "y": 1, "z": -9 },  "facing": { "x": -1, "y": 0, "z": 0 } },
+    { "npcId": "slice_manager",   "displayName": "관리자",       "position": { "x": 38,  "y": 1, "z": 43 },  "facing": { "x": 0,  "y": 0, "z": -1 } }
+  ],
+  "restrictedZones": [
+    { "id": "warehouse_zone", "center": { "x": -34, "y": 1.5, "z": 44 }, "size": { "x": 14, "y": 3, "z": 12 } }
+  ],
+  "dockFacilityId": "dock",
+  "warehouseFacilityId": "warehouse",
+  "evidenceFacilityId": "evidence"
+}

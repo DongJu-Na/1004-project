@@ -21,6 +21,7 @@ namespace Project1028.PlayFoundation
         [SerializeField] private string id = "P1";
         [Tooltip("시야 판정 등에 쓰는 몸 중심의 pivot 기준 높이. 프리미티브 Capsule은 pivot이 중심이므로 0.")]
         [SerializeField] private float centerHeight = 0f;
+        [SerializeField] private OrbitCamera cameraRef; // 씬 저장에 남도록 직렬화 (에디터 빌더가 설정, OrbitCamera.OnEnable이 재확인)
 
         private readonly HashSet<object> lockOwners = new HashSet<object>();
         private readonly List<Destination> receivedDestinations = new List<Destination>();
@@ -31,7 +32,7 @@ namespace Project1028.PlayFoundation
         public Vector3 Position => transform.position;
         public Vector3 CenterPosition => transform.position + Vector3.up * centerHeight;
         public Vector3 Forward => transform.forward;
-        public OrbitCamera Camera { get; set; }
+        public OrbitCamera Camera { get => cameraRef; set => cameraRef = value; }
         /// <summary>두 손이 점유되어 일반 상호작용(대화 등)이 불가한 상태. 004 PlayerHands가 설정.</summary>
         public bool HandsBusy { get; set; }
         /// <summary>차량 탑승 중. 006 VehicleSeats가 설정. 도보 조작·상호작용 안내가 꺼진다.</summary>

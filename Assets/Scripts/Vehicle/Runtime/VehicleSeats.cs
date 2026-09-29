@@ -17,9 +17,14 @@ namespace Project1028.Vehicle
         private VehicleController controller;
         private Transform driverSeat, passengerSeat;
 
+        /// <summary>true면 두 손이 점유된 상태(증거 소지)로도 탑승 허용 (008 데이터로 설정).</summary>
+        public static bool AllowBusyHands { get; set; }
+
         public PlayerEntity Driver { get; private set; }
         public PlayerEntity Passenger { get; private set; }
         public bool HasFreeSeat => Driver == null || Passenger == null;
+        /// <summary>마지막 탑승/하차 프레임. 같은 E 입력이 탑승→하차로 두 번 처리되는 것을 막는다.</summary>
+        public int LastSeatChangeFrame { get; private set; } = -1;
         public static bool IsInVehicle(PlayerEntity p) => p != null && p.IsInVehicle;
 
         private void Awake()
@@ -40,7 +45,7 @@ namespace Project1028.Vehicle
 
         public bool TryEnter(PlayerEntity player)
         {
-            if (player == null || player.IsInVehicle || player.IsLocked || player.HandsBusy) return false;
+            if (player == null || player.IsInVehicle || player.IsLocked || (!AllowBusyHands && player.HandsBusy)) return false;
             var seat = SeatAssignment.PickSeat(Driver != null, Passenger != null);
             if (seat == null) { RuntimeHud.Instance?.Warn($"{player.Id}: 좌석이 모두 찼다"); return false; }
 
@@ -57,6 +62,7 @@ namespace Project1028.Vehicle
             player.Camera?.SetTarget(transform, vehicleCameraDistance);
             if (seat == SeatKind.Driver) controller.EngineOn = true;
 
+            LastSeatChangeFrame = Time.frameCount;
             VehicleEvents.RaiseEntered(player, seat.Value);
             RuntimeHud.Instance?.Warn($"{player.Id}: {(seat == SeatKind.Driver ? "운전석" : "동승석")} 탑승");
             return true;
@@ -80,7 +86,7 @@ namespace Project1028.Vehicle
             if (side.sqrMagnitude < 1e-4f) side = Vector3.left; // 옆으로 누운 경우 등
             Vector3 exitPos = transform.position + side.normalized * exitSideDistance;
             exitPos.y = Physics.Raycast(exitPos + Vector3.up * 3f, Vector3.down, out RaycastHit hit, 10f, ~0, QueryTriggerInteraction.Ignore) && !hit.transform.IsChildOf(transform)
-                ? hit.point.y + 1f : 1f;
+                ? hit.point.y + 1f : transform.position.y;
 
             player.transform.SetParent(null, true);
             player.transform.SetPositionAndRotation(exitPos, Quaternion.Euler(0f, transform.eulerAngles.y, 0f));
@@ -93,6 +99,7 @@ namespace Project1028.Vehicle
             if (seat == SeatKind.Driver) { Driver = null; controller.EngineOn = false; controller.SetInput(0f, 0f, 0f); }
             else Passenger = null;
 
+            LastSeatChangeFrame = Time.frameCount;
             VehicleEvents.RaiseExited(player, seat.Value);
             RuntimeHud.Instance?.Warn($"{player.Id}: 하차");
             return true;

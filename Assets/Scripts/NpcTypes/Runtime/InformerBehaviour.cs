@@ -75,6 +75,7 @@ namespace Project1028.NpcTypes
                 }
             }
 
+            if (state.Phase == DeliveryPhase.Moving && targetManager == null && manager != null) { targetManager = manager; mover.MoveTo(manager.Position); }
             if (state.Phase == DeliveryPhase.Moving && targetManager != null)
             {
                 if (Vector3.Distance(transform.position, targetManager.Position) <= rule.arriveDistance)

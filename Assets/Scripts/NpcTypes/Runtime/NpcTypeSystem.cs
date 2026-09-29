@@ -20,7 +20,6 @@ namespace Project1028.NpcTypes
         public AlertZone TurnZone { get; private set; } = AlertZone.Tension;
 
         private readonly List<NpcTypeProfile> profiles = new List<NpcTypeProfile>();
-        private bool started;
 
         private void Awake()
         {
@@ -60,7 +59,6 @@ namespace Project1028.NpcTypes
             AssignAll();
             SuspicionEvents.OnIslandZoneChanged += HandleZoneChanged;
             EvaluateTurns(suspicion.Island.Zone);
-            started = true;
         }
 
         // ---------------- 배정 ----------------
@@ -140,6 +138,7 @@ namespace Project1028.NpcTypes
             {
                 var vision = npc.GetComponent<NpcVision>();
                 if (vision == null || !vision.IsSeeing(actor)) continue;
+                if (NpcSuspicionProfile.GetOrDefault(npc).IgnoresSuspicionEvents) continue; // 경계자 등
                 var profile = NpcTypeProfile.Get(npc);
                 string eventId = profile != null && profile.WatcherRuleApplies ? Rules.rules.watcher.investigateEventId : "investigate_in_sight";
                 SuspicionSystem.Instance.Raise(SuspicionEvent.Target(eventId, actor, npc));

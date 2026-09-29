@@ -25,6 +25,9 @@ namespace Project1028.Encounter
         private EncounterSystem system;
         private bool finished;
 
+        /// <summary>시작 성공 여부. false면 시스템이 런 카운트를 되돌린다.</summary>
+        public bool Started { get; private set; }
+
         public void Begin(EncounterDef def, PlayerEntity player, Vector3 anchor, EncounterSystem owner)
         {
             Def = def; Player = player; system = owner;
@@ -42,7 +45,9 @@ namespace Project1028.Encounter
             {
                 RuntimeHud.Instance?.Warn($"{def.id}: 대화를 시작할 수 없어 취소");
                 Finish(InstancePhase.Interrupted, recordHistory: false);
+                return;
             }
+            Started = true;
         }
 
         private void HandleStarted(NpcIdentity npc, PlayerEntity p)
@@ -159,6 +164,14 @@ namespace Project1028.Encounter
         }
 
         private bool IsOurs(NpcIdentity npc) => npc != null && npcs.Contains(npc);
+
+        private void OnDestroy()
+        {
+            // 씬 리로드 등으로 Finish 없이 파괴될 때 정적 이벤트 구독 해제
+            DialogueEvents.OnDialogueStarted -= HandleStarted;
+            DialogueEvents.OnLineAdvanced -= HandleLine;
+            DialogueEvents.OnDialogueEnded -= HandleEnded;
+        }
 
         private void Finish(InstancePhase final, bool recordHistory)
         {

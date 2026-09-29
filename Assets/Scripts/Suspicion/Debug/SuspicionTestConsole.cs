@@ -6,7 +6,7 @@ using Project1028.PlayFoundation;
 namespace Project1028.Suspicion
 {
     /// <summary>
-    /// 테스트 씬 키 콘솔 (FR-028). F1~F7 사건, N 낮/밤, R 런 종료, T 시간 배속, [ ] 섬 ±10.
+    /// 테스트 씬 키 콘솔 (FR-028). F1~F7 사건, N 낮/밤, Home 런 종료, T 시간 배속, [ ] 섬 ±10.
     /// witness/target 사건은 P1 카메라 전방 최근접 NPC를 대상으로 삼는다.
     /// </summary>
     public sealed class SuspicionTestConsole : MonoBehaviour
@@ -31,7 +31,7 @@ namespace Project1028.Suspicion
                 TimeOfDay.Instance.Toggle();
                 RuntimeHud.Instance?.Warn($"시간대 → {TimeOfDay.Instance.Phase}");
             }
-            if (kb.rKey.wasPressedThisFrame) system.EndRun();
+            if (kb.homeKey.wasPressedThisFrame) system.EndRun(); // R은 008 재시작 키라 Home으로
             if (kb.tKey.wasPressedThisFrame)
             {
                 Time.timeScale = Mathf.Approximately(Time.timeScale, 1f) ? 10f : 1f;

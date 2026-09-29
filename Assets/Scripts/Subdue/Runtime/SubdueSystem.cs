@@ -143,8 +143,7 @@ namespace Project1028.Subdue
             foreach (var npc in NpcIdentity.All)
             {
                 if (npc == target || UnconsciousState.IsUnconscious(npc)) continue;
-                var vision = npc.GetComponent<NpcVision>();
-                if (vision != null && vision.enabled && vision.IsSeeing(actor)) observerBuffer.Add(npc.NpcId);
+                if (RawSees(npc, actor.CenterPosition, actor.transform)) observerBuffer.Add(npc.NpcId); // 순간 판정 (히스테리시스 없음)
             }
             Ledger.RecordWitnesses(target.NpcId, observerBuffer);
 
@@ -172,6 +171,18 @@ namespace Project1028.Subdue
             RuntimeHud.Instance?.Warn($"소음 {SubdueNames.Korean(level)} ({rule.noiseEventId})");
         }
 
+        /// <summary>제압 순간의 목격 판정: 안정 시간 없이 부채꼴·거리·가림을 즉시 계산한다.</summary>
+        private static bool RawSees(NpcIdentity observer, Vector3 targetCenter, Transform targetRoot)
+        {
+            var vision = observer.GetComponent<NpcVision>();
+            if (vision == null || !vision.enabled) return false;
+            var geo = VisionEvaluator.Evaluate(observer.EyePosition, observer.Forward, targetCenter, vision.FovDegrees, vision.Range);
+            if (!geo.InCone) return false;
+            if (Physics.Linecast(observer.EyePosition, targetCenter, out RaycastHit hit, ~0, QueryTriggerInteraction.Ignore))
+                return hit.transform.IsChildOf(targetRoot) || hit.transform.IsChildOf(observer.transform);
+            return true;
+        }
+
         private static bool IsUnaware(NpcIdentity target, PlayerEntity actor)
         {
             var vision = target.GetComponent<NpcVision>();
@@ -195,14 +206,16 @@ namespace Project1028.Subdue
                 var npc = s.Npc;
                 var subduer = s.SubduedBy;
                 var suspicion = SuspicionSystem.Instance;
-                bool alreadyCertain = suspicion.GetStage(npc, subduer) == SuspicionStage.Certain;
-                suspicion.Raise(SuspicionEvent.Target(Rules.costs.wakeEventId, subduer, npc)); // 개인 3 (§4.4)
-                if (alreadyCertain) suspicion.ForceReportAttempt(npc, subduer);               // 이미 3이면 신고 시도 재발행
-
                 Ledger.Clear(npc.NpcId);
                 unconscious.RemoveAt(i);
-                s.Wake();
-                RuntimeHud.Instance?.Warn($"{npc.DisplayName} 깨어남 → {subduer.Id}에 대해 확신, 신고 시도 (§4.3)");
+                s.Wake(); // 먼저 깨운다: IsUnconscious가 즉시 false가 되어 005가 신고 시도를 받아준다
+                if (subduer != null && suspicion != null)
+                {
+                    bool alreadyCertain = suspicion.GetStage(npc, subduer) == SuspicionStage.Certain;
+                    suspicion.Raise(SuspicionEvent.Target(Rules.costs.wakeEventId, subduer, npc)); // 개인 3 (§4.4)
+                    if (alreadyCertain) suspicion.ForceReportAttempt(npc, subduer);               // 이미 3이면 신고 시도 재발행
+                    RuntimeHud.Instance?.Warn($"{npc.DisplayName} 깨어남 → {subduer.Id}에 대해 확신, 신고 시도 (§4.3)");
+                }
             }
         }
 

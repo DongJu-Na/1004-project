@@ -19,6 +19,7 @@
 | `Report/` | 005 | 어셈블리 `Report`(→Subdue). 신고 지점(`ReportPoint`), 신고 흐름(`ReportFlow`/`ReportSystem`), 전화선 끊기(`PhoneCutInteractable`/`PlayerCutter`/`PlayerToolkit`), 순수 `ReportPointSelector/ReportFlowState/CutProgress/ReportSpeedRule` |
 | `Vehicle/` | 006 | 기반 기능. 어셈블리 `Vehicle`(→PlayFoundation만). Rigidbody 아케이드 주행(`VehicleController`), 좌석(`VehicleSeats`), 탑승(`VehicleEnterInteractable`), 입력(`VehicleDriverInput`), 순수 `SeatAssignment/ExitRule/FlipDetector` |
 | `Encounter/` | 007 | 어셈블리 `Encounter`(→Subdue/Vehicle/Suspicion). 인카운터 정의·풀·회수 테이블(JSON), 트리거·스폰 게이트·후보 필터·가중 선택(순수), 인스턴스 상태기계(대화→선택→결과), 런 원장 |
+| `Slice/` | 008 | **게임처럼 보이는 첫 씬**. 어셈블리 `Slice`(→전부). 런 시계·출항·목표(`RunDirector`/`ObjectiveHud`/`DockBoat`), 제한 구역·증거(`RestrictedZone`/`EvidenceItem`/`EvidenceWatcher`), 즉각 반응(`FeedbackDirector`/`ScreenFx`/`ProceduralAudio`/`EyeIndicator`), 결과(`ResultScreen`) |
 | `Mission/`, `Save/` | 예약 | PrototypePlan 4·5·2단계용 빈 폴더 |
 
 후속 기능은 `Suspicion/`(002), `Subdue/`(004), `Encounter/`(007) 등으로 나란히 추가한다.
@@ -98,3 +99,9 @@
 - 런 이월: `Ledger.Export()` / `Import(history)`. 002 런 종료(R)에 스냅샷 이벤트.
 - 가산 확장: 001 `DialogueRunner.TryBeginInline/Pause/Resume/Abort`; 006 `VehicleDriverInput`은 대화 중 입력 무시; 002 사건 `encounter_stared_at`·`encounter_picked_up_runaway`.
 - 입력: 도로 트리거 진입(도보/차량), X 샘플 강제, 1/2 선택, S 정찰 토글, Z 100런 시뮬. 테스트 씬: `Build Encounter Test Scene`.
+
+## 008 수직 슬라이스 — 플레이하려면
+
+`Tools > PROJECT 1028 > Build Island Slice` → `Assets/Scenes/Island_Slice.unity` → Play. 스피커 켜기(코드 합성 소리).
+상단에 목표·거리·시계. E 조사(길게)/들기/탑승/배 타기, F 제압, G 내려놓기, R 결과 화면 재시작. F9~F12 디버그.
+배치는 `StreamingAssets/Slice/island_layout.json`, 시간·반응 강도는 `slice_rules.json`. 가산 확장: 001 `OrbitCamera.Shake`, 004 `CarriableObject.Locked/IsEvidence`, 006 `VehicleSeats.AllowBusyHands`.

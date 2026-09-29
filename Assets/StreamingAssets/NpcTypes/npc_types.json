@@ -17,7 +17,7 @@
     },
     "sentinel": {
       "detectRadius": 5.0,
-      "soundRadius": 10.0,
+      "soundRadius": 8.0,
       "cooldownSeconds": 5.0,
       "noiseEventId": "noise",
       "status": "확정대기"
@@ -90,6 +90,58 @@
       "npcId": "rep_q",
       "type": "Silent",
       "roles": []
+    },
+    {
+      "npcId": "slice_watcher_1",
+      "type": "Watcher",
+      "roles": []
+    },
+    {
+      "npcId": "slice_watcher_2",
+      "type": "Watcher",
+      "roles": []
+    },
+    {
+      "npcId": "slice_informer_1",
+      "type": "Informer",
+      "roles": []
+    },
+    {
+      "npcId": "slice_informer_2",
+      "type": "Informer",
+      "roles": []
+    },
+    {
+      "npcId": "slice_symp_1",
+      "type": "Sympathizer",
+      "roles": []
+    },
+    {
+      "npcId": "slice_symp_2",
+      "type": "Sympathizer",
+      "roles": []
+    },
+    {
+      "npcId": "slice_silent_1",
+      "type": "Silent",
+      "roles": []
+    },
+    {
+      "npcId": "slice_silent_2",
+      "type": "Silent",
+      "roles": []
+    },
+    {
+      "npcId": "slice_dog",
+      "type": "Sentinel",
+      "roles": []
+    },
+    {
+      "npcId": "slice_manager",
+      "type": "Watcher",
+      "roles": [
+        "manager"
+      ]
     }
   ]
 }

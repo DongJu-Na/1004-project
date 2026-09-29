@@ -26,6 +26,7 @@ namespace Project1028.PlayFoundation.Editor
 
             new GameObject("RuntimeHud").AddComponent<RuntimeHud>();
             new GameObject("TimeOfDay").AddComponent<TimeOfDay>();
+            new GameObject("NightLighting").AddComponent<NightLighting>();
             new GameObject("SuspicionSystem").AddComponent<SuspicionSystem>();
             new GameObject("SuspicionDebugPanel").AddComponent<SuspicionDebugPanel>();
             new GameObject("SuspicionTestConsole").AddComponent<SuspicionTestConsole>();

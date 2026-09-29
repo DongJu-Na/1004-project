@@ -17,7 +17,7 @@ namespace Project1028.Subdue
 
         public bool CanInteract(PlayerEntity player)
         {
-            if (player == null || player.IsLocked || state == null || state.IsCarried) return false;
+            if (player == null || player.IsLocked || state == null || state.IsCarried || state.IsAwake) return false;
             var hands = player.GetComponent<PlayerHands>();
             return hands != null && HandRules.CanPickUpBody(hands.State);
         }

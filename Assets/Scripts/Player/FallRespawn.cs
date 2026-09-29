@@ -26,6 +26,7 @@ namespace Project1028.PlayFoundation
             bool hadController = controller != null && controller.enabled;
             if (hadController) controller.enabled = false;
             transform.position = owner.SpawnPosition;
+            GetComponent<ThirdPersonMotor>()?.ResetVertical();
             if (hadController) controller.enabled = true;
 
             RuntimeHud.Instance?.Warn($"{owner.Id} 낙하 복귀");

@@ -4,7 +4,7 @@ using Project1028.PlayFoundation;
 
 namespace Project1028.Encounter
 {
-    /// <summary>키: X 다음 샘플 강제 발생, 1/2 C 선택, S P1 정찰 토글, Z 100런 시뮬레이션.</summary>
+    /// <summary>키: X 다음 샘플 강제 발생, 1/2 C 선택, F8 P1 정찰 토글, Z 100런 시뮬레이션.</summary>
     public sealed class EncounterTestConsole : MonoBehaviour
     {
         private int cursor;
@@ -28,7 +28,7 @@ namespace Project1028.Encounter
             }
             if (kb.digit1Key.wasPressedThisFrame) system.Active?.Choose("A");
             if (kb.digit2Key.wasPressedThisFrame) system.Active?.Choose("B");
-            if (kb.sKey.wasPressedThisFrame && p1 != null)
+            if (kb.f8Key.wasPressedThisFrame && p1 != null) // S는 이동 키라 F8로
             {
                 var act = p1.GetComponent<PlayerActivity>();
                 if (act != null) { act.IsScouting = !act.IsScouting; RuntimeHud.Instance?.Warn($"P1 조사·정찰 중: {(act.IsScouting ? "예 (인카운터 없음)" : "아니오")}"); }

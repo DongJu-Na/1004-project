@@ -23,9 +23,13 @@ namespace Project1028.Suspicion
         private readonly PropagationScheduler scheduler = new PropagationScheduler();
         private readonly Dictionary<(NpcIdentity, PlayerEntity), float> nightWanderCooldown = new Dictionary<(NpcIdentity, PlayerEntity), float>();
         private readonly HashSet<string> warnedUnknownIds = new HashSet<string>();
-        private readonly Dictionary<string, NpcIdentity> npcById = new Dictionary<string, NpcIdentity>();
+        private readonly Dictionary<string, NpcIdentity> npcById = new Dictionary<string, NpcIdentity>(); // 키 = 인스턴스 키(NpcId 중복 안전)
+
+        /// <summary>전파·조회용 고유 키. NpcId는 테스트 씬에서 중복될 수 있어 인스턴스 id를 붙인다.</summary>
+        private static string Key(NpcIdentity npc) => npc.NpcId + "#" + npc.GetInstanceID();
         private readonly Dictionary<string, PlayerEntity> playerById = new Dictionary<string, PlayerEntity>();
         private readonly List<NpcIdentity> npcBuffer = new List<NpcIdentity>();
+        private readonly List<(NpcIdentity, PlayerEntity, StageChange)> decayBuffer = new List<(NpcIdentity, PlayerEntity, StageChange)>();
         private bool warnedNotReady;
         private RulesValidationResult loadResult;
 
@@ -105,7 +109,7 @@ namespace Project1028.Suspicion
             {
                 s = new PersonalSuspicion(Time.time);
                 personal[key] = s;
-                if (npc != null) npcById[npc.NpcId] = npc;
+                if (npc != null) npcById[Key(npc)] = npc;
                 if (player != null) playerById[player.Id] = player;
             }
             return s;
@@ -279,7 +283,7 @@ namespace Project1028.Suspicion
                 {
                     var a = npcs[i]; var b = npcs[j];
                     bool inRange = Vector3.Distance(a.Position, b.Position) <= dist;
-                    scheduler.SetMeeting(a.NpcId, b.NpcId, inRange, now);
+                    scheduler.SetMeeting(Key(a), Key(b), inRange, now);
                     if (!inRange) continue;
                     TryReserveDirection(a, b, now, delay);
                     TryReserveDirection(b, a, now, delay);
@@ -306,8 +310,8 @@ namespace Project1028.Suspicion
             foreach (var p in PlayerEntity.All)
             {
                 if (GetPersonal(from, p).Value < (int)SuspicionStage.Alert) continue;
-                npcById[from.NpcId] = from; npcById[to.NpcId] = to; playerById[p.Id] = p;
-                scheduler.TryReserve(from.NpcId, to.NpcId, p.Id, now + (immediate ? 0f : delay));
+                npcById[Key(from)] = from; npcById[Key(to)] = to; playerById[p.Id] = p;
+                scheduler.TryReserve(Key(from), Key(to), p.Id, now + (immediate ? 0f : delay));
             }
         }
 
@@ -315,6 +319,7 @@ namespace Project1028.Suspicion
         private void TickDecay(float now)
         {
             float interval = Rules.decay.personalIntervalSeconds;
+            decayBuffer.Clear();
             foreach (var kv in personal)
             {
                 var (npc, player) = kv.Key;
@@ -323,10 +328,12 @@ namespace Project1028.Suspicion
                 if (s.Value <= PersonalSuspicion.Min) continue;
                 int steps = DecayCalculator.PersonalSteps(s.LastRaisedAt, s.LastDecayAt, now, interval);
                 if (steps <= 0) continue;
-                s.LastDecayAt = now;
+                float basis = Mathf.Max(s.LastRaisedAt, s.LastDecayAt);
+                s.LastDecayAt = basis + steps * interval; // 나머지 시간 보존
                 var change = s.Apply(-steps, now);
-                if (change.HasValue) SuspicionEvents.RaisePersonalStageChanged(npc, player, change.Value.Old, change.Value.New);
+                if (change.HasValue) decayBuffer.Add((npc, player, change.Value));
             }
+            foreach (var (npc, player, change) in decayBuffer) SuspicionEvents.RaisePersonalStageChanged(npc, player, change.Old, change.New); // 열거 후 발행 (구독자가 GetPersonal로 삽입해도 안전)
 
             int oldValue = Island.Value;
             bool oldBlocked = Island.DepartureBlocked;

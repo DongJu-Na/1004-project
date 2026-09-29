@@ -21,7 +21,7 @@ namespace Project1028.Encounter
 
         public static EncounterType TypeOf(EncounterDef d)
         {
-            Enum.TryParse(d?.type ?? "D", out EncounterType t);
+            if (!Enum.TryParse(d?.type ?? "D", out EncounterType t)) t = EncounterType.D;
             return t;
         }
     }

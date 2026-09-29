@@ -135,6 +135,7 @@ namespace Project1028.Encounter
         internal void NotifyEnded(EncounterInstance inst)
         {
             if (Active == inst) Active = null;
+            if (inst != null && !inst.Started) { RunCount = Mathf.Max(0, RunCount - 1); return; } // 시작 실패는 런 슬롯·간격을 소비하지 않는다
             LastEndedAt = Time.time;
         }
 

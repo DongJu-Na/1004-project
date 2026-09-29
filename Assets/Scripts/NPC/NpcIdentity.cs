@@ -40,7 +40,12 @@ namespace Project1028.PlayFoundation
             }
         }
 
-        private void OnEnable() => all.Add(this);
+        private void OnEnable()
+        {
+            foreach (var other in all)
+                if (other != this && other.npcId == npcId) Debug.LogWarning($"[NpcIdentity] NpcId 중복: {npcId} ({name}, {other.name}) — 대화 파일 공유는 되지만 이월 기록은 합쳐진다.", this);
+            all.Add(this);
+        }
         private void OnDisable() => all.Remove(this);
     }
 }

@@ -39,9 +39,20 @@ namespace Project1028.PlayFoundation
         private float yaw;
         private float pitch;
         private float currentDistance;
+        private float shakeAmplitude;
+        private float shakeRemaining;
+        private float shakeDuration;
 
         public float Yaw => yaw;
         public float Pitch => pitch;
+
+        /// <summary>카메라 흔들림 (008 연출). 감쇠하며 사라진다.</summary>
+        public void Shake(float amplitude, float seconds)
+        {
+            shakeAmplitude = Mathf.Max(0f, amplitude);
+            shakeDuration = Mathf.Max(0.01f, seconds);
+            shakeRemaining = shakeDuration;
+        }
 
         /// <summary>궤도 대상과 거리를 바꾼다 (006 차량 탑승/하차).</summary>
         public void SetTarget(Transform newTarget, float newDistance)
@@ -67,6 +78,7 @@ namespace Project1028.PlayFoundation
 
         private void OnEnable()
         {
+            if (owner != null && owner.Camera == null) owner.Camera = this; // 씬 리로드 후에도 참조 보장
             if (playerInput == null && owner != null) playerInput = owner.GetComponent<PlayerInput>();
             lookAction = playerInput != null && playerInput.actions != null ? playerInput.actions.FindAction("Look", false) : null;
         }
@@ -127,7 +139,13 @@ namespace Project1028.PlayFoundation
                 ? desired
                 : Mathf.Lerp(currentDistance, desired, 1f - Mathf.Exp(-distanceSmoothing * Time.deltaTime));
 
-            transform.position = pivot + back * currentDistance;
+            Vector3 shake = Vector3.zero;
+            if (shakeRemaining > 0f)
+            {
+                shakeRemaining -= Time.unscaledDeltaTime;
+                shake = Random.insideUnitSphere * shakeAmplitude * Mathf.Clamp01(shakeRemaining / shakeDuration);
+            }
+            transform.position = pivot + back * currentDistance + shake;
             transform.rotation = rotation;
         }
 

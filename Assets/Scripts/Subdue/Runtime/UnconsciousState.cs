@@ -18,15 +18,23 @@ namespace Project1028.Subdue
         public UnconsciousTimer Timer { get; private set; }
         public float Remaining => Timer != null ? Timer.Remaining : 0f;
         public bool IsCarried => CarriedBy != null;
+        /// <summary>Wake()가 시작되면 참. Destroy가 프레임 끝까지 미뤄지므로 이 플래그로 즉시 '깨어남'을 판정한다.</summary>
+        public bool IsAwake { get; private set; }
         public readonly HashSet<string> WitnessIds = new HashSet<string>();
 
         private readonly List<Behaviour> disabled = new List<Behaviour>();
         private bool savedPropagates;
+        private bool savedIgnores;
         private NpcSuspicionProfile profile;
         private Quaternion standingRotation;
         private UnconsciousCarryInteractable carry;
 
-        public static bool IsUnconscious(NpcIdentity npc) => npc != null && npc.GetComponent<UnconsciousState>() != null;
+        public static bool IsUnconscious(NpcIdentity npc)
+        {
+            if (npc == null) return false;
+            var s = npc.GetComponent<UnconsciousState>();
+            return s != null && !s.IsAwake;
+        }
 
         public static UnconsciousState Attach(NpcIdentity npc, PlayerEntity subduer, UnconsciousTimer timer)
         {
@@ -47,7 +55,9 @@ namespace Project1028.Subdue
             if (state.profile != null)
             {
                 state.savedPropagates = state.profile.PropagatesSuspicion;
-                state.profile.PropagatesSuspicion = false; // 기절 중 전파 없음 (FR-010)
+                state.savedIgnores = state.profile.IgnoresSuspicionEvents;
+                state.profile.PropagatesSuspicion = false;   // 기절 중 전파 없음 (FR-010)
+                state.profile.IgnoresSuspicionEvents = true; // 기절 중 상승 사건 무시
             }
 
             // 눕힘 (프리미티브 표현)
@@ -69,6 +79,8 @@ namespace Project1028.Subdue
         /// <summary>깨어남: 운반 중이면 내려지고, 컴포넌트 복구 후 이 상태를 제거한다.</summary>
         public void Wake()
         {
+            if (IsAwake) return;
+            IsAwake = true;
             if (CarriedBy != null)
             {
                 var hands = CarriedBy.GetComponent<PlayerHands>();
@@ -76,7 +88,7 @@ namespace Project1028.Subdue
             }
             foreach (var b in disabled) if (b != null) b.enabled = true;
             disabled.Clear();
-            if (profile != null) profile.PropagatesSuspicion = savedPropagates;
+            if (profile != null) { profile.PropagatesSuspicion = savedPropagates; profile.IgnoresSuspicionEvents = savedIgnores; }
 
             transform.SetParent(null, true);
             transform.rotation = Quaternion.Euler(0f, standingRotation.eulerAngles.y, 0f);

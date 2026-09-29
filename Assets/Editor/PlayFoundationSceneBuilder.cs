@@ -67,19 +67,23 @@ namespace Project1028.PlayFoundation.Editor
             go.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
         }
 
-        public static void CreateGround()
+        public static void CreateGround() => CreateGround(20f);
+
+        /// <summary>half = 바닥 절반 크기(m). 기본 20 → 40×40.</summary>
+        public static void CreateGround(float half)
         {
             var ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
             ground.name = "Ground";
             ground.transform.position = Vector3.zero;
-            ground.transform.localScale = new Vector3(4f, 1f, 4f); // 40 x 40
+            ground.transform.localScale = new Vector3(half / 5f, 1f, half / 5f); // Plane = 10m
             Tint(ground, new Color(0.35f, 0.4f, 0.3f));
         }
 
-        public static void CreateWalls()
+        public static void CreateWalls() => CreateWalls(20f);
+
+        public static void CreateWalls(float half)
         {
             var parent = new GameObject("Walls").transform;
-            const float half = 20f;
             const float h = 3f;
             const float t = 0.5f;
             Wall(parent, "Wall_N", new Vector3(0f, h / 2f, half - t / 2f), new Vector3(2f * half, h, t));

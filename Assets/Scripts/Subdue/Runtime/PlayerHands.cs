@@ -55,7 +55,7 @@ namespace Project1028.Subdue
 
         public bool TryPickUpBody(UnconsciousState body)
         {
-            if (body == null || body.IsCarried || !HandRules.CanPickUpBody(State)) { Say("들 수 없다: 빈손이어야 함 (기절자는 두 손)"); return false; }
+            if (body == null || body.IsCarried || body.IsAwake || !HandRules.CanPickUpBody(State)) { Say("들 수 없다: 빈손이어야 함 (기절자는 두 손)"); return false; }
             HeldBody = body;
             HeldKind = HeldKind.UnconsciousNpc;
             State = HandState.TwoHands;
@@ -84,10 +84,11 @@ namespace Project1028.Subdue
                 HeldObject.IsHeld = false;
                 HeldObject = null;
             }
-            if (HeldBody != null)
+            if (!ReferenceEquals(HeldBody, null) && HeldBody != null)
             {
+                Vector3 bodyDrop = transform.position + transform.forward * Mathf.Max(dropDistance, 2.2f); // 눕힌 캡슐 길이 2 + 여유
                 HeldBody.transform.SetParent(null, true);
-                HeldBody.transform.position = new Vector3(dropPos.x, 0.5f, dropPos.z); // 눕힌 캡슐 반경
+                HeldBody.transform.position = new Vector3(bodyDrop.x, 0.5f, bodyDrop.z); // 눕힌 캡슐 반경
                 HeldBody.transform.rotation = Quaternion.Euler(90f, transform.eulerAngles.y, 0f);
                 SetCollidersEnabled(HeldBody.gameObject, true);
                 HeldBody.SetCarried(null);

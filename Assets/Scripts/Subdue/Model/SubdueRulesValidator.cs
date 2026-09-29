@@ -62,7 +62,7 @@ namespace Project1028.Subdue
             if (a.range <= 0f) res.Error($"{label}.range는 > 0 이어야 합니다.");
             if (needsCone && (a.backConeDegrees <= 0f || a.backConeDegrees > 180f)) res.Error($"{label}.backConeDegrees는 0~180 이어야 합니다.");
             if (needsFail && (a.failChance < 0f || a.failChance > 1f)) res.Error($"{label}.failChance는 0~1 이어야 합니다.");
-            if (!Enum.TryParse<NoiseLevel>(a.noiseLevel, false, out _)) res.Error($"{label}.noiseLevel은 Low|Medium|High 이어야 합니다. (현재 '{a.noiseLevel}')");
+            if (!Enum.TryParse<NoiseLevel>(a.noiseLevel, false, out var lvl) || !Enum.IsDefined(typeof(NoiseLevel), lvl)) res.Error($"{label}.noiseLevel은 Low|Medium|High 이어야 합니다. (현재 '{a.noiseLevel}')");
             if (string.IsNullOrEmpty(a.noiseEventId) || !exists(a.noiseEventId)) res.Error($"{label}.noiseEventId '{a.noiseEventId}'가 의심 규칙에 없습니다.");
             Status(res, a.status, label);
         }

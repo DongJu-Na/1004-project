@@ -25,6 +25,7 @@ namespace Project1028.PlayFoundation.Editor
 
             new GameObject("RuntimeHud").AddComponent<RuntimeHud>();
             new GameObject("TimeOfDay").AddComponent<TimeOfDay>();
+            new GameObject("NightLighting").AddComponent<NightLighting>();
             new GameObject("SuspicionSystem").AddComponent<SuspicionSystem>();
             new GameObject("SuspicionDebugPanel").AddComponent<SuspicionDebugPanel>();
             new GameObject("SuspicionTestConsole").AddComponent<SuspicionTestConsole>();
@@ -36,8 +37,8 @@ namespace Project1028.PlayFoundation.Editor
             p2.AddComponent<PlayerDisguise>();
 
             var a = PlayFoundationSceneBuilder.CreateNpc("NPC_A", "npc_dock_worker", "NPC_A 일반", new Vector3(2f, 1f, 4f), Vector3.back);
-            var b = PlayFoundationSceneBuilder.CreateNpc("NPC_B", "npc_dock_worker", "NPC_B 전파안함", new Vector3(-4f, 1f, 4f), Vector3.back);
-            var m = PlayFoundationSceneBuilder.CreateNpc("NPC_M", "npc_dock_worker", "NPC_M 관리자", new Vector3(6f, 1f, 12f), Vector3.back);
+            var b = PlayFoundationSceneBuilder.CreateNpc("NPC_B", "sus_b", "NPC_B 전파안함", new Vector3(-4f, 1f, 4f), Vector3.back, talkable: false);
+            var m = PlayFoundationSceneBuilder.CreateNpc("NPC_M", "sus_m", "NPC_M 관리자", new Vector3(6f, 1f, 12f), Vector3.back, talkable: false);
 
             Decorate(a, propagates: true, manager: false);
             Decorate(b, propagates: false, manager: false);

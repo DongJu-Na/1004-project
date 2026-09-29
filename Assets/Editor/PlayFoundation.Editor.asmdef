@@ -9,7 +9,8 @@
         "Subdue",
         "Report",
         "Vehicle",
-        "Encounter"
+        "Encounter",
+        "Slice"
     ],
     "includePlatforms": [
         "Editor"

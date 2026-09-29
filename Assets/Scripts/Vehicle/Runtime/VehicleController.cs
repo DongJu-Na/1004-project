@@ -13,10 +13,11 @@ namespace Project1028.Vehicle
     {
         public static VehicleController Instance { get; private set; }
 
+        // 차체(Cube 프리미티브)의 단위 공간 좌표. 스케일이 자동 적용되므로 ±0.5 안에 둔다. y=0(중심)에서 아래로 쏜다.
         [SerializeField] private Vector3[] suspensionPoints =
         {
-            new Vector3(-0.9f, -0.4f, 1.4f), new Vector3(0.9f, -0.4f, 1.4f),
-            new Vector3(-0.9f, -0.4f, -1.4f), new Vector3(0.9f, -0.4f, -1.4f),
+            new Vector3(-0.4f, 0f, 0.35f), new Vector3(0.4f, 0f, 0.35f),
+            new Vector3(-0.4f, 0f, -0.35f), new Vector3(0.4f, 0f, -0.35f),
         };
         [SerializeField] private Transform[] wheelVisuals = new Transform[0];
 
@@ -95,10 +96,12 @@ namespace Project1028.Vehicle
                 bool underLimit = throttle > 0f ? fwdSpeed < p.maxSpeed : fwdSpeed > -p.reverseMaxSpeed;
                 if (underLimit) rb.AddForce(transform.forward * throttle * p.acceleration * rb.mass, ForceMode.Force);
             }
-            // 제동
+            // 제동 (데드밴드: 한 스텝에 멈출 수 있으면 전진 속도 성분을 0으로)
             if (brake > 0.01f && Mathf.Abs(fwdSpeed) > 0.05f)
             {
-                rb.AddForce(-transform.forward * Mathf.Sign(fwdSpeed) * brake * p.brakeForce * rb.mass, ForceMode.Force);
+                float stepDelta = brake * p.brakeForce * dt;
+                if (Mathf.Abs(fwdSpeed) <= stepDelta) rb.linearVelocity = vel - transform.forward * fwdSpeed;
+                else rb.AddForce(-transform.forward * Mathf.Sign(fwdSpeed) * brake * p.brakeForce * rb.mass, ForceMode.Force);
             }
             // 조향 (속도에 비례, 고속에서 감쇠, 후진 시 반전)
             if (Mathf.Abs(steer) > 0.01f && Mathf.Abs(fwdSpeed) > 0.2f)
@@ -107,26 +110,29 @@ namespace Project1028.Vehicle
                 float falloff = 1f - p.steerSpeedFalloff * Mathf.Clamp01(Mathf.Abs(fwdSpeed) / p.maxSpeed);
                 rb.AddTorque(Vector3.up * steer * p.steerTorque * speedFactor * falloff * Mathf.Sign(fwdSpeed) * rb.mass, ForceMode.Force);
             }
-            // 측면 감쇠
-            Vector3 lateral = Vector3.Project(vel, transform.right);
-            rb.AddForce(-lateral * p.lateralGrip * rb.mass, ForceMode.Force);
+            // 측면 그립: 스텝마다 측면 속도의 일정 비율을 제거 (배처럼 미끄러지지 않게)
+            Vector3 lateral = Vector3.Project(rb.linearVelocity, transform.right);
+            rb.AddForce(-lateral * Mathf.Clamp01(p.lateralGrip), ForceMode.VelocityChange);
 
-            wheelSpin += fwdSpeed * dt * 120f;
-            foreach (var w in wheelVisuals) if (w != null) w.localRotation = Quaternion.Euler(wheelSpin, 0f, 90f);
+            wheelSpin += fwdSpeed * dt * Mathf.Rad2Deg / 0.35f; // 바퀴 반지름 0.35m
+            foreach (var w in wheelVisuals) if (w != null) w.localRotation = Quaternion.Euler(0f, 0f, 90f) * Quaternion.Euler(0f, wheelSpin, 0f); // 실린더 축(Y) 기준 굴림
         }
 
         private void ApplySuspension(float dt)
         {
             groundedCount = 0;
-            float restLen = p.suspensionLength;
+            // 차체 중심에서 아래로: 차체 절반 높이 + 서스펜션 길이. 바닥까지 거리에서 절반 높이를 뺀 값이 서스펜션 압축량이다.
+            float halfHeight = transform.lossyScale.y * 0.5f;
+            float travel = p.suspensionLength;
+            float rayLen = halfHeight + travel;
             foreach (var local in suspensionPoints)
             {
                 Vector3 origin = transform.TransformPoint(local);
-                if (Physics.Raycast(origin, -transform.up, out RaycastHit hit, restLen, ~0, QueryTriggerInteraction.Ignore))
+                if (Physics.Raycast(origin, -transform.up, out RaycastHit hit, rayLen, ~0, QueryTriggerInteraction.Ignore))
                 {
                     if (hit.transform.IsChildOf(transform)) continue;
                     groundedCount++;
-                    float compression = 1f - hit.distance / restLen;
+                    float compression = Mathf.Clamp01(1f - (hit.distance - halfHeight) / travel);
                     float pointVel = Vector3.Dot(rb.GetPointVelocity(origin), transform.up);
                     float force = compression * p.suspensionSpring - pointVel * p.suspensionDamper;
                     rb.AddForceAtPosition(transform.up * force * rb.mass * 0.25f, origin, ForceMode.Force);

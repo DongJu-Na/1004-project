@@ -46,6 +46,7 @@ namespace Project1028.PlayFoundation
         {
             if (Instance != null && Instance != this)
             {
+                enabled = false; // Start()가 실행되지 않도록
                 Destroy(gameObject);
                 return;
             }
@@ -202,7 +203,7 @@ namespace Project1028.PlayFoundation
         private PlayerSlot BuildSlot(PlayerEntity player, int slotIndex)
         {
             // 첫 슬롯(입력 있는 개체)은 하단 중앙 크게, 이후 슬롯은 우측에 축소 (T035).
-            bool primary = slotIndex == 0;
+            bool primary = player.GetComponent<UnityEngine.InputSystem.PlayerInput>() != null; // 입력 있는 개체가 주 슬롯
             float scale = primary ? 1f : 0.6f;
 
             var rootGo = new GameObject($"Slot_{player.Id}");

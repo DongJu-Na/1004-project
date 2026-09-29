@@ -127,7 +127,7 @@ public sealed class NpcMover : MonoBehaviour
 |---|---|
 | F1~F7 | events[0..6] 발생 (witness/target은 "카메라 전방 가장 가까운 NPC" 대상, radius는 P1 위치) |
 | N | 낮/밤 전환 |
-| R | 런 종료(이월 값 표시) |
+| Home | 런 종료(이월 값 표시) — R은 008 재시작 키 |
 | T | 시간 배속 1↔10 |
 | [ / ] | 섬 의심도 -10 / +10 (디버그 직접 조정) |
 

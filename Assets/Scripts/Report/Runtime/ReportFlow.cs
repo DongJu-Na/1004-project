@@ -35,8 +35,8 @@ namespace Project1028.Report
         public void Begin(PlayerEntity player, ReportPoint point, ReportRules r)
         {
             npc = GetComponent<NpcIdentity>();
-            mover = GetComponent<NpcMover>() ?? gameObject.AddComponent<NpcMover>();
-            profile = GetComponent<NpcSuspicionProfile>() ?? gameObject.AddComponent<NpcSuspicionProfile>();
+            mover = GetComponent<NpcMover>(); if (mover == null) mover = gameObject.AddComponent<NpcMover>();
+            profile = GetComponent<NpcSuspicionProfile>(); if (profile == null) profile = gameObject.AddComponent<NpcSuspicionProfile>();
             rules = r;
             TargetPlayer = player;
 
@@ -59,7 +59,7 @@ namespace Project1028.Report
         private void SetTarget(ReportPoint point)
         {
             TargetPoint = point;
-            float dist = Vector3.Distance(transform.position, point.Position);
+            float dist = Mathf.Max(0f, FlatDistance(transform.position, point.Position) - rules.arriveDistance - point.ApproachRadius);
             mover.Speed = ReportSpeedRule.SpeedFor(dist, savedSpeed, rules.minWalkSeconds); // §5.1 플레이어에게 시간이 있다
             mover.MoveTo(point.Position);
             UpdateLabel();
@@ -103,7 +103,7 @@ namespace Project1028.Report
             {
                 case ReportPhase.Moving:
                     mover.MoveTo(TargetPoint.Position); // 매 프레임 재발행: 002 억제 진입 Stop과의 프레임 순서 문제 방지
-                    if (Vector3.Distance(transform.position, TargetPoint.Position) <= rules.arriveDistance)
+                    if (FlatDistance(transform.position, TargetPoint.Position) <= rules.arriveDistance + TargetPoint.ApproachRadius)
                     {
                         state.Arrive(Time.time);
                         mover.Stop();
@@ -121,6 +121,8 @@ namespace Project1028.Report
                     break;
             }
         }
+
+        private static float FlatDistance(Vector3 a, Vector3 b) { a.y = 0f; b.y = 0f; return Vector3.Distance(a, b); }
 
         private void UpdateLabel()
         {
@@ -153,7 +155,7 @@ namespace Project1028.Report
             finished = true;
             if (mover != null) { mover.Stop(); mover.Speed = savedSpeed; }
             if (profile != null) profile.SuppressStageBehaviour = savedSuppress;
-            foreach (var b in disabledBehaviours) if (b != null) b.enabled = true;
+            if (!UnconsciousState.IsUnconscious(npc)) foreach (var b in disabledBehaviours) if (b != null) b.enabled = true;
             disabledBehaviours.Clear();
             if (label != null) Destroy(label.gameObject);
             ReportSystem.Instance?.Unregister(this);

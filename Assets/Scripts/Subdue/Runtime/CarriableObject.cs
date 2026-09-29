@@ -13,6 +13,8 @@ namespace Project1028.Subdue
         [SerializeField] private bool isTwoHanded;
         [SerializeField] private string displayName = "상자";
         [SerializeField, Min(0.5f)] private float interactionRange = 2f;
+        [SerializeField] private bool isEvidence;
+        [SerializeField] private bool locked;
 
         public bool IsTwoHanded => isTwoHanded;
         public string DisplayName => displayName;
@@ -20,16 +22,24 @@ namespace Project1028.Subdue
         public float InteractionRange => interactionRange;
         public Vector3 WorldPosition => transform.position;
         public bool IsHeld { get; internal set; }
+        /// <summary>증거 물건(§4.2 손 규칙·§2.3 목격 대상). 무기 속성과 무관.</summary>
+        public bool IsEvidence { get => isEvidence; set => isEvidence = value; }
+        /// <summary>잠긴 물건은 들 수 없다(008: 조사 전 증거).</summary>
+        public bool Locked { get => locked; set => locked = value; }
 
-        public void Configure(string name, bool twoHanded)
+        public void Configure(string name, bool twoHanded) => Configure(name, twoHanded, false, false);
+
+        public void Configure(string name, bool twoHanded, bool evidence, bool startLocked)
         {
             displayName = name;
             isTwoHanded = twoHanded;
+            isEvidence = evidence;
+            locked = startLocked;
         }
 
         public bool CanInteract(PlayerEntity player)
         {
-            if (player == null || player.IsLocked || IsHeld) return false;
+            if (player == null || player.IsLocked || IsHeld || locked) return false;
             var hands = player.GetComponent<PlayerHands>();
             return hands != null && HandRules.CanPickUpObject(hands.State);
         }

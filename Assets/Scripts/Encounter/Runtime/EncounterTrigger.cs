@@ -21,9 +21,11 @@ namespace Project1028.Encounter
         private void Update()
         {
             var system = EncounterSystem.Instance;
+            inside.RemoveWhere(x => x == null);
             foreach (var p in PlayerEntity.All)
             {
-                bool now = Vector3.Distance(p.Position, transform.position) <= radius;
+                Vector3 a = p.Position; a.y = 0f; Vector3 b = transform.position; b.y = 0f;
+                bool now = Vector3.Distance(a, b) <= radius;
                 bool was = inside.Contains(p);
                 if (now && !was) { inside.Add(p); system?.TryTrigger(p, this); }
                 else if (!now && was) inside.Remove(p);

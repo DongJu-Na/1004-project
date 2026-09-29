@@ -54,7 +54,7 @@ namespace Project1028.Encounter
             if (text == null)
             {
                 if (RuntimeHud.Instance == null) return;
-                text = RuntimeHud.Instance.CreateFixedText("EncounterPanel", new Vector2(0f, 0f), new Vector2(16f, 16f), new Vector2(760f, 460f), 19, TextAnchor.LowerLeft);
+                text = RuntimeHud.Instance.CreateFixedText("EncounterPanel", new Vector2(0f, 0f), new Vector2(16f, 300f), new Vector2(620f, 380f), 18, TextAnchor.LowerLeft); // 하단 P1 안내와 겹치지 않게 위로
                 text.color = new Color(1f, 0.95f, 0.8f);
             }
             var system = EncounterSystem.Instance;
@@ -70,7 +70,7 @@ namespace Project1028.Encounter
             sb.AppendLine("— 로그 —");
             foreach (var l in log) sb.AppendLine(l);
             if (!string.IsNullOrEmpty(system.LastReport)) sb.AppendLine(system.LastReport);
-            sb.AppendLine("키: X 샘플 강제 · 1/2 선택 · S 정찰 토글 · Z 100런 시뮬 · N 낮/밤 · E 탑승");
+            sb.AppendLine("키: X 샘플 강제 · 1/2 선택 · F8 정찰 토글 · Z 100런 시뮬 · N 낮/밤 · E 탑승");
             text.text = sb.ToString();
         }
     }

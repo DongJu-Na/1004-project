@@ -15,7 +15,7 @@ namespace Project1028.Vehicle
         public string PromptText => seats.Driver == null ? "탑승 (운전석)" : "탑승 (동승석)";
         public float InteractionRange => controller != null ? controller.Params.enterRange : 3f;
         public Vector3 WorldPosition => transform.position;
-        public bool CanInteract(PlayerEntity player) => player != null && !player.IsLocked && !player.IsInVehicle && !player.HandsBusy && seats.HasFreeSeat;
+        public bool CanInteract(PlayerEntity player) => player != null && !player.IsLocked && !player.IsInVehicle && (VehicleSeats.AllowBusyHands || !player.HandsBusy) && seats.HasFreeSeat && seats.LastSeatChangeFrame != Time.frameCount;
         public void Interact(PlayerEntity player) => seats.TryEnter(player);
     }
 }
