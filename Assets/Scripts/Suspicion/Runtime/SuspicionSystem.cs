@@ -25,8 +25,8 @@ namespace Project1028.Suspicion
         private readonly HashSet<string> warnedUnknownIds = new HashSet<string>();
         private readonly Dictionary<string, NpcIdentity> npcById = new Dictionary<string, NpcIdentity>(); // 키 = 인스턴스 키(NpcId 중복 안전)
 
-        /// <summary>전파·조회용 고유 키. NpcId는 테스트 씬에서 중복될 수 있어 인스턴스 id를 붙인다.</summary>
-        private static string Key(NpcIdentity npc) => npc.NpcId + "#" + npc.GetInstanceID();
+        /// <summary>전파·조회용 고유 키. NpcId는 테스트 씬에서 중복될 수 있어 EntityId를 붙인다.</summary>
+        private static string Key(NpcIdentity npc) => npc.NpcId + "#" + npc.GetEntityId().ToString();
         private readonly Dictionary<string, PlayerEntity> playerById = new Dictionary<string, PlayerEntity>();
         private readonly List<NpcIdentity> npcBuffer = new List<NpcIdentity>();
         private readonly List<(NpcIdentity, PlayerEntity, StageChange)> decayBuffer = new List<(NpcIdentity, PlayerEntity, StageChange)>();
